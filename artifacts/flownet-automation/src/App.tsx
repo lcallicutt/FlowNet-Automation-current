@@ -1,4 +1,4 @@
-import { type FormEvent, type ReactNode, useState } from 'react';
+import { type FormEvent, type ReactNode, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -55,6 +55,35 @@ const techServices = [
   { title: 'Church Tech Audit', description: 'A real-world look at Sunday systems, volunteer workflows, security, and gaps.', icon: Building2, tint: 'bg-[#e6f4f4]' },
   { title: 'Quarterly Care Plans', description: 'A familiar technology partner on a regular rhythm, before little issues become big ones.', icon: ShieldCheck, tint: 'bg-[#fff1e8]' },
 ];
+
+function PageMeta({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
+  useEffect(() => {
+    document.title = title;
+
+    const setMeta = (selector: string, attribute: 'name' | 'property', key: string, content: string) => {
+      let element = document.head.querySelector<HTMLMetaElement>(selector);
+      if (!element) {
+        element = document.createElement('meta');
+        element.setAttribute(attribute, key);
+        document.head.appendChild(element);
+      }
+      element.content = content;
+    };
+
+    setMeta('meta[name="description"]', 'name', 'description', description);
+    setMeta('meta[property="og:title"]', 'property', 'og:title', title);
+    setMeta('meta[property="og:description"]', 'property', 'og:description', description);
+    setMeta('meta[property="og:type"]', 'property', 'og:type', 'website');
+  }, [description, title]);
+
+  return null;
+}
 
 function Logo({ light = false }: { light?: boolean }) {
   return (
@@ -244,6 +273,10 @@ function RequestForm() {
 function Home() {
   return (
     <div className="overflow-hidden">
+      <PageMeta
+        title="FlowNet Automation | Technology That Works for You"
+        description="Automation, AI, and hands-on tech support for churches, small businesses, and everyday people. Local Tech Care serves Hampton Roads."
+      />
       <Header />
       <main>
         <section className="noise relative overflow-hidden bg-[#0b1628] text-white">
@@ -328,6 +361,10 @@ function Home() {
 function TechCare() {
   return (
     <div className="overflow-hidden">
+      <PageMeta
+        title="FlowNet Tech Care | Serving Hampton Roads"
+        description="Patient, practical technology help for homeowners, seniors, churches, and small organizations across Hampton Roads."
+      />
       <Header />
       <main>
         <section className="noise relative overflow-hidden bg-[#0b1628] text-white">
