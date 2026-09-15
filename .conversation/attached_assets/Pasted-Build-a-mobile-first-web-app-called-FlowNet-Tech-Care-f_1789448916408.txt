@@ -1,0 +1,25 @@
+Build a mobile-first web app called FlowNet Tech Care for technicians doing in-home and church tech visits. Stack: React + Vite front end, Node/Express API, Postgres (Replit DB or Neon). Brand colors: navy 
+#0B1628, teal 
+#00C9B1, electric blue 
+#1A6DFF. Fonts: Poppins (headings), Nunito (body). Large tap targets, works one-handed on a phone, offline-tolerant (queue submissions in localStorage if the network drops and retry).
+Users and auth
+Two roles: admin (Net) and tech. Simple email + magic link or password login. Admin can create tech accounts.
+Techs only see jobs assigned to them.
+Data model
+techs        id, name, email, phone, role, active
+customers    id, name, phone, email, address, type (home | church | org), notes, gate_code
+jobs         id, customer_id, tech_id, service_type, scheduled_at, status
+             (booked | in_progress | done | report_sent), ghl_contact_id, intake_json
+checklist_items
+             id, job_id, section, label, result (pass | fail | na), severity (low | med | high),
+             note, photo_url, fixed_on_site (bool)
+reports      id, job_id, score, summary_html, pdf_url, sent_at
+Service types and checklists
+Seed these four checklists. Each item has a label, a default severity, and a help tip the tech can tap to see.
+1. Home Tech Checkup
+Computer: OS fully updated; antivirus present and current; malware scan run (Malwarebytes or Defender full scan); no unknown browser extensions; no remote-access tools installed (AnyDesk, TeamViewer, etc.) that the customer did not ask for; startup programs trimmed; disk has more than 15% free; backup exists and last ran within 30 days.
+Accounts and scam settings: email account has 2FA on; phone has spam call filtering on; browser saves no passwords for banking; password manager or written password book in use; customer knows the "hang up and call the bank" rule.
+Printer: connected to Wi-Fi (not USB unless preferred); prints a test page from the main computer and from the phone; ink or toner status noted; driver is current.
+Wi-Fi: router password is not the factory default; router firmware is current; speed test result recorded; Wi-Fi reaches bedroom and living room; guest network set up if customer wants it.
+Phone and tablet: OS updated; storage not full; Find My / Find My Device on; emergency contacts set; text size and accessibility settings comfortable.
+Wrap-up: customer shown how to reach FlowNet Tech Care; one-page "what we did" left on the counter.
