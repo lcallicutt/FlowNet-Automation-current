@@ -27,6 +27,8 @@ import {
   Sparkles,
   Wrench,
   X,
+  Zap,
+  Activity,
 } from 'lucide-react';
 import NotFound from '@/pages/not-found';
 import {
@@ -275,7 +277,7 @@ function Home() {
     <div className="overflow-hidden">
       <PageMeta
         title="FlowNet Automation | Technology That Works for You"
-        description="Automation, AI, and hands-on tech support for churches, small businesses, and everyday people. Local Tech Care serves Hampton Roads."
+        description="FlowNet helps organizations improve systems and automate repetitive work without making technology more complicated."
       />
       <Header />
       <main>
@@ -283,51 +285,50 @@ function Home() {
           <div className="absolute -right-40 top-20 h-96 w-96 rounded-full bg-[#00c9b1]/10 blur-3xl" />
           <div className="container-wide relative grid items-center gap-10 py-16 md:grid-cols-[1.05fr_.95fr] md:py-24 lg:py-28">
             <div className="fade-up">
-              <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#31506b] bg-[#142640] px-3 py-2 text-xs font-extrabold tracking-wide text-[#a9bfce]"><span className="h-2 w-2 rounded-full bg-[#00c9b1]" /> Practical help. Serious systems.</div>
-              <h1 className="max-w-3xl font-display text-[clamp(3rem,8vw,6.3rem)] font-extrabold leading-[.98] tracking-[-.07em]">Technology that <span className="text-[#00c9b1]">works</span> for you.</h1>
-              <p className="mt-7 max-w-xl text-lg leading-8 text-[#b7c8d8] sm:text-xl">Automation, AI, and hands-on tech support for churches, small businesses, and everyday people.</p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <a href="#request" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#00c9b1] px-7 text-base font-extrabold text-[#0b1628] shadow-[0_6px_0_#078f7d] transition hover:-translate-y-1 active:translate-y-0" data-testid="link-hero-book">Book Tech Help <ArrowRight className="h-5 w-5" /></a>
-                <a href="#automation" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-[#506b83] px-7 text-base font-extrabold text-white transition hover:border-[#00c9b1] hover:text-[#00c9b1]" data-testid="link-hero-automation">Explore Automation <ArrowDownRight className="h-5 w-5" /></a>
+              <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#31506b] bg-[#142640] px-3 py-2 text-xs font-extrabold tracking-wide text-[#a9bfce]">
+                <span className="h-2 w-2 rounded-full bg-[#00c9b1]" /> Workflow & Systems Automation
               </div>
-              <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-bold text-[#91a8bc]"><span className="inline-flex items-center gap-2"><MapPinDot /> Serving Hampton Roads</span><span className="inline-flex items-center gap-2"><BadgeCheck className="h-4 w-4 text-[#00c9b1]" /> Built for real life</span></div>
+              <h1 className="max-w-3xl font-display text-[clamp(3rem,8vw,6.3rem)] font-extrabold leading-[.98] tracking-[-.07em]">Technology that <span className="text-[#00c9b1]">works</span> for you.</h1>
+              <p className="mt-7 max-w-xl text-lg leading-8 text-[#b7c8d8] sm:text-xl">FlowNet helps churches, nonprofits, service businesses, and professional teams identify inefficient workflows, improve systems, and automate repetitive work without making technology more complicated.</p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <a href="https://readiness.flownetautomation.com/" target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#00c9b1] px-7 text-base font-extrabold text-[#0b1628] shadow-[0_6px_0_#078f7d] transition hover:-translate-y-1 active:translate-y-0" data-testid="link-hero-score">Get Your Automation Score <ArrowRight className="h-5 w-5" /></a>
+                <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-[#506b83] px-7 text-base font-extrabold text-white transition hover:border-[#00c9b1] hover:text-[#00c9b1]" data-testid="link-hero-call">Book a Strategy Call <ArrowDownRight className="h-5 w-5" /></a>
+              </div>
+              <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-bold text-[#91a8bc]">
+                <span className="inline-flex items-center gap-2"><FileCheck2 className="h-4 w-4 text-[#00c9b1]" /> Takes ~3 mins</span>
+                <span className="inline-flex items-center gap-2"><BadgeCheck className="h-4 w-4 text-[#00c9b1]" /> No obligation</span>
+              </div>
             </div>
             <div className="fade-up fade-up-delay-2"><HeroVisual /></div>
-          </div>
-          <div className="border-t border-white/10">
-            <div className="container-wide flex items-center gap-8 overflow-hidden py-4 text-xs font-extrabold uppercase tracking-[.16em] text-[#7f96ab]">
-              <span className="shrink-0 text-[#00c9b1]">One partner, two ways to move forward</span><span className="hidden h-px w-20 bg-[#38516b] sm:block" /><span className="shrink-0">Local hands-on care</span><span className="shrink-0">Remote systems thinking</span>
-            </div>
           </div>
         </section>
 
         <section className="container-wide py-20 md:py-28">
           <div className="grid gap-10 md:grid-cols-[.8fr_1.2fr] md:items-end">
-            <div><span className="section-kicker">A better starting point</span><h2 className="mt-5 max-w-md font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">You do not need more technology. You need the right technology.</h2></div>
-            <p className="max-w-xl text-lg leading-8 text-[#5d7186] md:justify-self-end">FlowNet makes technology feel less like a maze. We can sit beside you and fix the Wi-Fi, or step back and build the automation that gives your team hours back every week.</p>
-          </div>
-          <div className="mt-14 grid gap-5 md:grid-cols-[1.15fr_.85fr]">
-            <article className="lift group relative overflow-hidden rounded-[28px] bg-[#e7fbf7] p-7 sm:p-9" id="local-care">
-              <div className="absolute -right-8 -top-8 h-40 w-40 rounded-full border-[20px] border-[#b6efe6]" />
-              <div className="relative"><div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#0b1628] text-[#00c9b1]"><Wrench className="h-6 w-6" /></div><p className="mt-8 text-xs font-extrabold uppercase tracking-[.16em] text-[#008d7c]">FlowNet Tech Care · local</p><h3 className="mt-3 max-w-md font-display text-3xl font-bold text-[#0b1628]">A patient, capable human in your corner.</h3><p className="mt-4 max-w-lg leading-7 text-[#4c6878]">For homes, churches, and small organizations in Hampton Roads. We fix what is in front of you, then leave things easier to use.</p><Link href="/tech-care" className="mt-7 inline-flex items-center gap-2 font-extrabold text-[#007d6e] group-hover:gap-3" data-testid="link-home-tech-care">See Tech Care <ArrowRight className="h-4 w-4" /></Link></div>
-            </article>
-            <article className="lift rounded-[28px] bg-[#e9efff] p-7 sm:p-9" id="automation">
-              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#1a6dff] text-white"><Network className="h-6 w-6" /></div><p className="mt-8 text-xs font-extrabold uppercase tracking-[.16em] text-[#285cc4]">Automation & AI · remote</p><h3 className="mt-3 max-w-md font-display text-3xl font-bold text-[#0b1628]">Make the repeatable feel effortless.</h3><p className="mt-4 leading-7 text-[#566c83]">For teams ready to simplify intake, follow-up, scheduling, and the work between the work.</p><a href="#readiness" className="mt-7 inline-flex items-center gap-2 font-extrabold text-[#1a5bd3] hover:gap-3" data-testid="link-home-automation">Explore the systems side <ArrowRight className="h-4 w-4" /></a>
-            </article>
+            <div>
+              <span className="section-kicker">Systems-first approach</span>
+              <h2 className="mt-5 max-w-md font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">Understand the workflow and people before the tools.</h2>
+            </div>
+            <p className="max-w-xl text-lg leading-8 text-[#5d7186] md:justify-self-end">You do not need more technology. You need the right technology. We start where the friction is—understanding how your team actually works before we recommend or build any automation.</p>
           </div>
         </section>
 
-        <section className="bg-[#f0f5f7] py-20 md:py-28" id="ai-receptionist">
+        <section className="bg-[#f0f5f7] py-20 md:py-28" id="automation">
           <div className="container-wide grid gap-12 md:grid-cols-[.9fr_1.1fr] md:items-center">
-            <div><span className="section-kicker">The FlowNet difference</span><h2 className="mt-5 max-w-lg font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">Start where the friction is. Build from there.</h2><p className="mt-6 max-w-lg text-lg leading-8 text-[#5d7186]">A printer problem and a missed follow-up often have the same root: technology that was never shaped around the people using it.</p><a href="#request" className="mt-8 inline-flex items-center gap-2 font-extrabold text-[#007e70]" data-testid="link-difference-start">Talk through your next step <ArrowRight className="h-4 w-4" /></a></div>
+            <div>
+              <span className="section-kicker">The Core Offer</span>
+              <h2 className="mt-5 max-w-lg font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">Consult. Audit. Automate.</h2>
+              <p className="mt-6 max-w-lg text-lg leading-8 text-[#5d7186]">Our complete method ensures technology actually serves your goals instead of creating more work.</p>
+              <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 font-extrabold text-[#007e70]" data-testid="link-method-book">Discuss your workflow <ArrowRight className="h-4 w-4" /></a>
+            </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {[
-                { number: '01', title: 'Listen first', body: 'We begin with your actual routine, not a catalog of tools.', icon: MessageCircle },
-                { number: '02', title: 'Make it usable', body: 'Clear handoffs, plain language, and systems people will actually use.', icon: ListChecks },
-                { number: '03', title: 'Leave a path', body: 'You get a next step that makes sense, whether we do it together or not.', icon: ArrowRight },
-                { number: '04', title: 'Stay close', body: 'When technology changes, you do not have to figure it out alone.', icon: Clock3 },
+                { number: '01', title: 'Consult & Audit', body: 'We map your existing processes to uncover hidden friction and quiet risks.', icon: MessageCircle },
+                { number: '02', title: 'Recommend', body: 'We propose plain-language, practical steps to streamline operations.', icon: ListChecks },
+                { number: '03', title: 'Automate', body: 'We build systems that handle the repetitive work between the work.', icon: Zap },
+                { number: '04', title: 'Measure & Improve', body: 'Ongoing managed digital support to ensure the system evolves with you.', icon: Activity },
               ].map((item, index) => (
-                <div key={item.number} className={`rounded-2xl border border-[#d9e4e8] bg-white p-5 ${index === 1 ? 'sm:translate-y-6' : ''}`}>
+                <div key={item.number} className={`rounded-2xl border border-[#d9e4e8] bg-white p-5 ${index === 1 || index === 3 ? 'sm:translate-y-6' : ''}`}>
                   <div className="flex items-center justify-between"><span className="font-mono text-xs font-bold text-[#00aF9d]">{item.number}</span><item.icon className="h-5 w-5 text-[#1a6dff]" /></div><h3 className="mt-8 font-display text-xl font-bold text-[#0b1628]">{item.title}</h3><p className="mt-2 text-sm leading-6 text-[#6c7e8f]">{item.body}</p>
                 </div>
               ))}
@@ -336,19 +337,89 @@ function Home() {
         </section>
 
         <section className="container-wide py-20 md:py-28" id="readiness">
-          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><span className="section-kicker">For organizations ready to move</span><h2 className="mt-5 font-display text-4xl font-bold text-[#0b1628] sm:text-5xl">Good systems make room for good work.</h2></div><p className="max-w-sm text-base leading-7 text-[#63778b] md:text-right">Remote consulting for leaders who want clarity before they add another tool.</p></div>
-          <div className="mt-12 grid gap-5 md:grid-cols-[.8fr_1.2fr]">
-            <div className="rounded-[28px] bg-[#0b1628] p-7 text-white sm:p-9" id="churches"><div className="flex items-center justify-between"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#1b3454] text-[#00c9b1]"><Building2 className="h-6 w-6" /></span><span className="rounded-full border border-[#3d5570] px-3 py-1 text-[10px] font-extrabold uppercase tracking-[.13em] text-[#a6bacb]">Church solutions</span></div><h3 className="mt-12 font-display text-3xl font-bold">More ministry. Less maintenance.</h3><p className="mt-4 leading-7 text-[#b4c4d3]">A church tech audit sees the Sunday morning experience, the volunteer handoff, and the quiet risks in between.</p><Link href="/tech-care" className="mt-8 inline-flex items-center gap-2 font-extrabold text-[#00c9b1]" data-testid="link-church-solutions">See a practical starting point <ArrowRight className="h-4 w-4" /></Link></div>
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div className="rounded-[28px] border border-[#d7e2e7] bg-[#fff8ed] p-7"><span className="grid h-11 w-11 place-items-center rounded-xl bg-[#ffe5bd] text-[#c06a12]"><Bot className="h-5 w-5" /></span><h3 className="mt-9 font-display text-2xl font-bold text-[#0b1628]">AI Receptionist</h3><p className="mt-3 text-sm leading-6 text-[#65788b]">A warmer first response for the questions your team answers every day.</p></div>
-              <div className="rounded-[28px] border border-[#d7e2e7] bg-[#edf3ff] p-7 sm:translate-y-8"><span className="grid h-11 w-11 place-items-center rounded-xl bg-[#d9e5ff] text-[#1a6dff]"><FileCheck2 className="h-5 w-5" /></span><h3 className="mt-9 font-display text-2xl font-bold text-[#0b1628]">AI Readiness Audit</h3><p className="mt-3 text-sm leading-6 text-[#65788b]">Know where AI can help, what it should not touch, and what to fix first.</p></div>
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+            <div>
+              <span className="section-kicker">Organizations in rhythm</span>
+              <h2 className="mt-5 font-display text-4xl font-bold text-[#0b1628] sm:text-5xl">Good systems make room for good work.</h2>
+            </div>
+            <p className="max-w-sm text-base leading-7 text-[#63778b] md:text-right">Real results for teams ready to move beyond manual maintenance.</p>
+          </div>
+          <div className="mt-12 grid gap-5 md:grid-cols-[1.1fr_.9fr]">
+            <div className="rounded-[28px] bg-[#0b1628] p-7 text-white sm:p-9" id="churches">
+              <div className="flex items-center justify-between"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#1b3454] text-[#00c9b1]"><Building2 className="h-6 w-6" /></span><span className="rounded-full border border-[#3d5570] px-3 py-1 text-[10px] font-extrabold uppercase tracking-[.13em] text-[#a6bacb]">Success Story</span></div>
+              <h3 className="mt-12 font-display text-3xl font-bold">Greater Emmanuel Church</h3>
+              <p className="mt-4 leading-7 text-[#b4c4d3]">They needed a consistent digital presence while reducing the technology burden on leadership. FlowNet stepped in to provide complete website design and launch, ongoing maintenance, digital platform support, and social support.</p>
+              <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 font-extrabold text-[#00c9b1]" data-testid="link-church-story">Explore Church Solutions <ArrowRight className="h-4 w-4" /></a>
+            </div>
+            <div className="grid gap-5">
+              <div className="rounded-[28px] border border-[#d7e2e7] bg-[#fff8ed] p-7 flex flex-col justify-between" id="ai-receptionist">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="grid h-11 w-11 place-items-center rounded-xl bg-[#ffe5bd] text-[#c06a12]"><Bot className="h-5 w-5" /></span>
+                    <span className="rounded-full bg-[#fde1b9] px-2 py-1 text-[10px] font-extrabold text-[#99520a]">LIVE DEMO</span>
+                  </div>
+                  <h3 className="mt-5 font-display text-2xl font-bold text-[#0b1628]">Meet Aria, the AI Receptionist</h3>
+                  <p className="mt-3 text-sm leading-6 text-[#65788b]">A warmer first response for the questions your team answers every day. Give her a call to see how she handles natural conversation.</p>
+                </div>
+                <a href="tel:+17575749991" className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#c06a12] px-5 text-sm font-extrabold text-white transition hover:bg-[#a3590e]" data-testid="link-call-aria">Call Aria at (757) 574-9991</a>
+              </div>
+              <div className="rounded-[28px] border border-[#d7e2e7] bg-[#edf3ff] p-7 flex items-center justify-between gap-4">
+                <div>
+                  <h3 className="font-display text-xl font-bold text-[#0b1628]">Automation Score</h3>
+                  <p className="mt-2 text-sm leading-6 text-[#65788b]">Take a 3-minute readiness assessment.</p>
+                </div>
+                <a href="https://readiness.flownetautomation.com/" target="_blank" rel="noreferrer" className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#1a6dff] text-white transition hover:scale-105" aria-label="Take assessment"><ArrowRight className="h-5 w-5" /></a>
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="bg-[#e7fbf7] py-20 md:py-28" id="request">
+        <section className="bg-[#0b1628] py-20 text-white md:py-28">
+          <div className="container-wide grid gap-12 md:grid-cols-[.9fr_1.1fr] md:items-center">
+            <div className="order-2 md:order-1 relative">
+              <div className="aspect-square max-w-sm mx-auto overflow-hidden rounded-[2rem] border border-[#2c425c] bg-[#142640]">
+                <img src="/founder.png" alt="Net, Founder of FlowNet Automation" className="h-full w-full object-cover opacity-90" />
+              </div>
+            </div>
+            <div className="order-1 md:order-2">
+              <span className="section-kicker">Leadership</span>
+              <h2 className="mt-5 font-display text-4xl font-bold leading-tight sm:text-5xl">Built by a systems professional.</h2>
+              <p className="mt-6 text-lg leading-8 text-[#b4c4d3]">FlowNet is led by Net, a systems and data professional with deep experience in business process analysis, systems analysis, requirements gathering, and quality assurance.</p>
+              <div className="mt-8 flex flex-wrap gap-2 text-xs font-bold text-[#8ba3ba]">
+                {['Workflow Testing', 'Data Validation', 'Automation Architecture', 'Digital Operations', 'AI-Enabled Workflows'].map(skill => (
+                  <span key={skill} className="rounded-full border border-[#2d4766] bg-[#102038] px-3 py-1.5">{skill}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="container-wide py-20 md:py-28" id="local-care">
+          <article className="lift relative overflow-hidden rounded-[28px] bg-[#e7fbf7] p-8 sm:p-12">
+            <div className="absolute -right-8 -top-8 h-40 w-40 rounded-full border-[20px] border-[#b6efe6]" />
+            <div className="relative grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full bg-[#c0f2ea] px-3 py-1.5 text-xs font-extrabold text-[#008d7c]"><MapPinDot /> Hampton Roads Local Service</div>
+                <h3 className="mt-6 font-display text-3xl font-bold text-[#0b1628] sm:text-4xl">FlowNet Tech Care</h3>
+                <p className="mt-4 max-w-2xl text-lg leading-8 text-[#4c6878]">Sometimes the workflow isn't the problem—the Wi-Fi is. We offer patient, hands-on technology help for homes, churches, and small organizations in Hampton Roads.</p>
+              </div>
+              <Link href="/tech-care" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#0b1628] px-8 font-extrabold text-white transition hover:bg-[#1a6dff]" data-testid="link-home-tech-care">See Tech Care <ArrowRight className="h-5 w-5" /></Link>
+            </div>
+          </article>
+        </section>
+
+        <section className="bg-[#f0f5f7] py-20 md:py-28" id="request">
           <div className="container-wide grid gap-10 md:grid-cols-[.8fr_1.2fr] md:items-start">
-            <div><span className="section-kicker">Let’s make it less stuck</span><h2 className="mt-5 font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">Tell us what is not working.</h2><p className="mt-5 max-w-md leading-7 text-[#526f7b]">A few details help us point you to the right kind of help — a local visit, a systems conversation, or both.</p><div className="mt-8 space-y-4 text-sm font-bold text-[#476773]"><div className="flex items-start gap-3"><span className="mt-0.5 grid h-5 w-5 place-items-center rounded-full bg-[#00c9b1] text-[#0b1628]"><Check className="h-3 w-3" /></span>No confusing sales process</div><div className="flex items-start gap-3"><span className="mt-0.5 grid h-5 w-5 place-items-center rounded-full bg-[#00c9b1] text-[#0b1628]"><Check className="h-3 w-3" /></span>Plain-language next steps</div><div className="flex items-start gap-3"><span className="mt-0.5 grid h-5 w-5 place-items-center rounded-full bg-[#00c9b1] text-[#0b1628]"><Check className="h-3 w-3" /></span>Local or remote, depending on the need</div></div></div>
+            <div>
+              <span className="section-kicker">Let’s make it less stuck</span>
+              <h2 className="mt-5 font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">Tell us what is not working.</h2>
+              <p className="mt-5 max-w-md leading-7 text-[#526f7b]">Send us a note about the friction in your workflow or home setup. We will help you decide whether a strategy call, a local visit, or an audit is the best fit.</p>
+              <div className="mt-8 space-y-4 text-sm font-bold text-[#476773]">
+                <div className="flex items-start gap-3"><span className="mt-0.5 grid h-5 w-5 place-items-center rounded-full bg-[#00c9b1] text-[#0b1628]"><Check className="h-3 w-3" /></span>No confusing sales process</div>
+                <div className="flex items-start gap-3"><span className="mt-0.5 grid h-5 w-5 place-items-center rounded-full bg-[#00c9b1] text-[#0b1628]"><Check className="h-3 w-3" /></span>Plain-language next steps</div>
+                <div className="flex items-start gap-3"><span className="mt-0.5 grid h-5 w-5 place-items-center rounded-full bg-[#00c9b1] text-[#0b1628]"><Check className="h-3 w-3" /></span>Local or remote, depending on the need</div>
+              </div>
+            </div>
             <RequestForm />
           </div>
         </section>
