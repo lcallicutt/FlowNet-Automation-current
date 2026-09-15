@@ -42,11 +42,11 @@ import {
 const queryClient = new QueryClient();
 
 const navItems = [
-  { label: 'Automation Services', href: '/#automation' },
-  { label: 'AI Receptionist', href: '/#ai-receptionist' },
-  { label: 'FlowNet Tech Care', href: '/tech-care' },
-  { label: 'AI Readiness / Audit', href: '/#readiness' },
-  { label: 'Church Solutions', href: '/#churches' },
+  { label: 'Automation Services', href: '/#automation', external: false },
+  { label: 'AI Receptionist', href: '/#ai-receptionist', external: false },
+  { label: 'FlowNet Tech Care', href: '/tech-care', external: false },
+  { label: 'AI Readiness / Audit', href: 'https://flowreadiness.com', external: true },
+  { label: 'Church Solutions', href: '/#churches', external: false },
 ];
 
 const techServices = [
@@ -89,14 +89,17 @@ function PageMeta({
 
 function Logo({ light = false }: { light?: boolean }) {
   return (
-    <Link href="/" className="inline-flex items-center gap-2.5" data-testid="link-logo">
-      <span className="relative grid h-9 w-9 place-items-center rounded-[11px] bg-[#00c9b1] text-[#0b1628] shadow-[4px_4px_0_#1a6dff]">
-        <span className="absolute h-4 w-4 rounded-[5px] border-[3px] border-current border-r-transparent rotate-45" />
-        <span className="absolute h-1.5 w-1.5 rounded-full bg-current" />
-      </span>
-      <span className={`font-display text-lg font-extrabold tracking-[-.04em] ${light ? 'text-white' : 'text-[#0b1628]'}`}>
-        FlowNet<span className="text-[#00aF9d]">.</span>
-      </span>
+    <Link
+      href="/"
+      aria-label="FlowNet Automation home"
+      className={`inline-flex items-center rounded-xl ${light ? '' : 'bg-[#0b1628] px-3 py-2'}`}
+      data-testid="link-logo"
+    >
+      <img
+        src={`${import.meta.env.BASE_URL}flownet-logo.png`}
+        alt="FlowNet Automation"
+        className={`w-auto object-contain ${light ? 'h-12' : 'h-8'}`}
+      />
     </Link>
   );
 }
@@ -108,17 +111,30 @@ function Header() {
       <div className="container-wide flex min-h-[76px] items-center justify-between gap-6">
         <Logo />
         <nav className="hidden items-center gap-6 lg:flex" aria-label="Main navigation">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="group inline-flex items-center gap-1 py-4 text-[.78rem] font-bold text-[#41536b] transition-colors hover:text-[#0b1628]"
-              data-testid={`link-nav-${item.label.toLowerCase().replaceAll(' ', '-')}`}
-            >
-              {item.label}
-              {item.label === 'Automation Services' && <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5" />}
-            </Link>
-          ))}
+          {navItems.map((item) =>
+            item.external ? (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-1 py-4 text-[.78rem] font-bold text-[#41536b] transition-colors hover:text-[#0b1628]"
+                data-testid={`link-nav-${item.label.toLowerCase().replaceAll(' ', '-')}`}
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group inline-flex items-center gap-1 py-4 text-[.78rem] font-bold text-[#41536b] transition-colors hover:text-[#0b1628]"
+                data-testid={`link-nav-${item.label.toLowerCase().replaceAll(' ', '-')}`}
+              >
+                {item.label}
+                {item.label === 'Automation Services' && <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5" />}
+              </Link>
+            ),
+          )}
         </nav>
         <div className="hidden items-center gap-4 lg:flex">
           <a href="#request" className="text-sm font-extrabold text-[#0b1628] hover:text-[#00aF9d]" data-testid="link-header-request">Have a question?</a>
@@ -139,11 +155,25 @@ function Header() {
       {open && (
         <nav className="border-t border-[#d9e3ea] bg-[#f8fbfd] px-4 pb-5 pt-2 lg:hidden" aria-label="Mobile navigation">
           <div className="container-wide flex flex-col">
-            {navItems.map((item) => (
-              <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className="border-b border-[#d9e3ea] py-4 text-sm font-extrabold text-[#233851]" data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}>
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) =>
+              item.external ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="border-b border-[#d9e3ea] py-4 text-sm font-extrabold text-[#233851]"
+                  data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className="border-b border-[#d9e3ea] py-4 text-sm font-extrabold text-[#233851]" data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}>
+                  {item.label}
+                </Link>
+              ),
+            )}
             <a href="#request" onClick={() => setOpen(false)} className="mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#00c9b1] font-extrabold text-[#0b1628]" data-testid="link-mobile-book">
               Book Tech Help <ArrowRight className="h-4 w-4" />
             </a>
@@ -169,7 +199,7 @@ function Footer() {
           <p className="mb-4 text-xs font-extrabold uppercase tracking-[.16em] text-[#00c9b1]">Explore</p>
           <div className="flex flex-col items-start gap-3 text-sm font-bold text-[#c9d4df]">
             <Link href="/#automation" className="hover:text-[#00c9b1]" data-testid="link-footer-automation">Automation Services</Link>
-            <Link href="/#readiness" className="hover:text-[#00c9b1]" data-testid="link-footer-readiness">AI Readiness / Audit</Link>
+            <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="hover:text-[#00c9b1]" data-testid="link-footer-readiness">AI Readiness / Audit</a>
             <Link href="/#churches" className="hover:text-[#00c9b1]" data-testid="link-footer-churches">Church Solutions</Link>
             <Link href="/tech-care" className="hover:text-[#00c9b1]" data-testid="link-footer-tech-care">FlowNet Tech Care</Link>
           </div>
