@@ -291,7 +291,7 @@ function Home() {
               <h1 className="max-w-3xl font-display text-[clamp(3rem,8vw,6.3rem)] font-extrabold leading-[.98] tracking-[-.07em]">Technology that <span className="text-[#00c9b1]">works</span> for you.</h1>
               <p className="mt-7 max-w-xl text-lg leading-8 text-[#b7c8d8] sm:text-xl">FlowNet helps churches, nonprofits, service businesses, and professional teams identify inefficient workflows, improve systems, and automate repetitive work without making technology more complicated.</p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <a href="https://readiness.flownetautomation.com/" target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#00c9b1] px-7 text-base font-extrabold text-[#0b1628] shadow-[0_6px_0_#078f7d] transition hover:-translate-y-1 active:translate-y-0" data-testid="link-hero-score">Get Your Automation Score <ArrowRight className="h-5 w-5" /></a>
+                <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#00c9b1] px-7 text-base font-extrabold text-[#0b1628] shadow-[0_6px_0_#078f7d] transition hover:-translate-y-1 active:translate-y-0" data-testid="link-hero-score">Get Your Automation Score <ArrowRight className="h-5 w-5" /></a>
                 <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-[#506b83] px-7 text-base font-extrabold text-white transition hover:border-[#00c9b1] hover:text-[#00c9b1]" data-testid="link-hero-call">Book a Strategy Call <ArrowDownRight className="h-5 w-5" /></a>
               </div>
               <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-bold text-[#91a8bc]">
@@ -368,7 +368,7 @@ function Home() {
                   <h3 className="font-display text-xl font-bold text-[#0b1628]">Automation Score</h3>
                   <p className="mt-2 text-sm leading-6 text-[#65788b]">Take a 3-minute readiness assessment.</p>
                 </div>
-                <a href="https://readiness.flownetautomation.com/" target="_blank" rel="noreferrer" className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#1a6dff] text-white transition hover:scale-105" aria-label="Take assessment"><ArrowRight className="h-5 w-5" /></a>
+                <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#1a6dff] text-white transition hover:scale-105" aria-label="Take assessment"><ArrowRight className="h-5 w-5" /></a>
               </div>
             </div>
           </div>
