@@ -22,6 +22,7 @@ import {
   Menu,
   MessageCircle,
   Network,
+  Phone,
   Printer,
   Router as RouterIcon,
   ShieldCheck,
@@ -33,6 +34,7 @@ import {
 } from 'lucide-react';
 import NotFound from '@/pages/not-found';
 import TechCareRequestForm from '@/components/tech-care-request-form';
+import { techCarePhone } from '@/lib/contact';
 import {
   Link,
   Route,
@@ -110,7 +112,7 @@ function Header() {
     <header className="relative z-50 border-b border-[#d9e3ea] bg-[#f8fbfd]/95 backdrop-blur-md">
       <div className="container-wide flex min-h-[76px] items-center justify-between gap-6">
         <Logo />
-        <nav className="hidden items-center gap-6 lg:flex" aria-label="Main navigation">
+        <nav className="hidden items-center gap-6 xl:flex" aria-label="Main navigation">
           {navItems.map((item) =>
             item.external ? (
               <a
@@ -136,14 +138,20 @@ function Header() {
             ),
           )}
         </nav>
-        <div className="hidden items-center gap-4 lg:flex">
+        <div className="hidden items-center gap-3 xl:flex">
           <a href="#request" className="text-sm font-extrabold text-[#0b1628] hover:text-[#00aF9d]" data-testid="link-header-request">Have a question?</a>
+          <a href={techCarePhone.href} className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-extrabold text-[#007e70] hover:underline" aria-label={`Call FlowNet Tech Care at ${techCarePhone.display}`} data-testid="link-header-tech-care-phone">
+            <Phone className="h-4 w-4" /> {techCarePhone.display}
+          </a>
           <a href="#request" className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#00c9b1] px-5 text-sm font-extrabold text-[#0b1628] shadow-[0_5px_0_#079783] transition-transform hover:-translate-y-0.5 active:translate-y-0" data-testid="link-header-book">
             Book Tech Help <ArrowRight className="h-4 w-4" />
           </a>
         </div>
+        <a href={techCarePhone.href} className="ml-auto inline-flex min-h-11 items-center gap-2 whitespace-nowrap text-xs font-extrabold text-[#007e70] sm:text-sm xl:hidden" aria-label={`Call FlowNet Tech Care at ${techCarePhone.display}`} data-testid="link-mobile-header-tech-care-phone">
+          <Phone className="h-4 w-4" /> {techCarePhone.display}
+        </a>
         <button
-          className="grid h-11 w-11 place-items-center rounded-xl border border-[#cad8e2] text-[#0b1628] lg:hidden"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-[#cad8e2] text-[#0b1628] xl:hidden"
           onClick={() => setOpen((value) => !value)}
           aria-label={open ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={open}
@@ -153,7 +161,7 @@ function Header() {
         </button>
       </div>
       {open && (
-        <nav className="border-t border-[#d9e3ea] bg-[#f8fbfd] px-4 pb-5 pt-2 lg:hidden" aria-label="Mobile navigation">
+        <nav className="border-t border-[#d9e3ea] bg-[#f8fbfd] px-4 pb-5 pt-2 xl:hidden" aria-label="Mobile navigation">
           <div className="container-wide flex flex-col">
             {navItems.map((item) =>
               item.external ? (

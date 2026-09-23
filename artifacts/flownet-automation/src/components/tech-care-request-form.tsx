@@ -4,6 +4,7 @@ import {
   useSubmitTechCareRequest,
   type TechCareRequestInput,
 } from '@workspace/api-client-react';
+import { techCarePhone } from '@/lib/contact';
 
 const services = [
   'Home Tech Checkup',
@@ -65,7 +66,7 @@ export default function TechCareRequestForm() {
         setError('We could not send your request right now. Please try again later.');
       }
     } catch {
-      setError('We could not send your request right now. Please try again later. You can also call Aria at (757) 574-9991.');
+      setError('We could not send your request right now. Please try again later.');
     }
   }
 
@@ -133,7 +134,7 @@ export default function TechCareRequestForm() {
           <textarea name="tech_care_detail" maxLength={3000} rows={4} className={`${fieldClass} resize-y py-3`} placeholder="What is getting in the way right now?" />
         </label>
       </div>
-      {error && <p role="alert" className="mt-4 text-sm font-bold text-[#b54848]">{error}</p>}
+      {error && <p role="alert" className="mt-4 text-sm font-bold text-[#b54848]">{error} You can call Tech Care at <a href={techCarePhone.href} className="underline">{techCarePhone.display}</a>.</p>}
       <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="max-w-xs text-xs leading-5 text-[#718294]">Your request will be sent securely. We will follow up using your preferred contact method.</p>
         <button disabled={request.isPending} type="submit" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#0b1628] px-6 text-sm font-extrabold text-white transition hover:bg-[#1a6dff] disabled:cursor-wait disabled:opacity-60" data-testid="button-submit-tech-care">
