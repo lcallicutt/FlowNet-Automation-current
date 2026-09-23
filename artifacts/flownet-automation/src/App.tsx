@@ -1,5 +1,6 @@
 import { type FormEvent, type ReactNode, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useSubmitHomepageRequest, type HomepageRequestInput } from '@workspace/api-client-react';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -45,7 +46,7 @@ const queryClient = new QueryClient();
 const navItems = [
   { label: 'Automation Services', href: '/#automation', external: false },
   { label: 'FlowNet Tech Care', href: '/tech-care', external: false },
-  { label: 'AI Readiness / Audit', href: 'https://flowreadiness.com', external: true },
+  { label: 'Automation Readiness Score', href: 'https://flowreadiness.com', external: true },
 ];
 
 const techServices = [
@@ -198,7 +199,7 @@ function Footer() {
           <p className="mb-4 text-xs font-extrabold uppercase tracking-[.16em] text-[#00c9b1]">Explore</p>
           <div className="flex flex-col items-start gap-3 text-sm font-bold text-[#c9d4df]">
             <Link href="/#automation" className="hover:text-[#00c9b1]" data-testid="link-footer-automation">Automation Services</Link>
-            <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="hover:text-[#00c9b1]" data-testid="link-footer-readiness">AI Readiness / Audit</a>
+            <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="hover:text-[#00c9b1]" data-testid="link-footer-readiness">Automation Readiness Score</a>
             <Link href="/tech-care" className="hover:text-[#00c9b1]" data-testid="link-footer-tech-care">FlowNet Tech Care</Link>
           </div>
         </div>
@@ -210,7 +211,7 @@ function Footer() {
       </div>
       <div className="border-t border-[#26384e]">
         <div className="container-wide flex flex-col gap-2 py-5 text-xs font-bold text-[#8294a8] sm:flex-row sm:items-center sm:justify-between">
-          <span>© 2025 FlowNet Automation. Built for real life.</span>
+          <span>© {new Date().getFullYear()} FlowNet Automation. Built for real life.</span>
           <span>Hampton Roads · Virginia</span>
         </div>
       </div>
@@ -261,12 +262,14 @@ function HeroVisual() {
 }
 
 function RequestForm() {
-  const [emailDraft, setEmailDraft] = useState('');
+  const request = useSubmitHomepageRequest();
+  const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [service, setService] = useState('');
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (request.isPending) return;
     const form = event.currentTarget;
     if (!form.reportValidity()) return;
     if (!service) {
@@ -274,28 +277,31 @@ function RequestForm() {
       return;
     }
     const data = new FormData(form);
-    const subject = `FlowNet inquiry: ${service}`;
-    const body = [
-      `Name: ${String(data.get('name') ?? '').trim()}`,
-      `Email: ${String(data.get('email') ?? '').trim()}`,
-      `Help needed: ${service}`,
-      '',
-      String(data.get('message') ?? '').trim(),
-    ].join('\n');
-    const link = `mailto:linette@flownetautomation.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const payload: HomepageRequestInput = {
+      full_name: String(data.get('name') ?? '').trim(),
+      email: String(data.get('email') ?? '').trim(),
+      service: service as HomepageRequestInput['service'],
+      detail: String(data.get('message') ?? '').trim(),
+    };
     setError('');
-    setEmailDraft(link);
-    window.location.href = link;
+    try {
+      const response = await request.mutateAsync({ data: payload });
+      if (response.success) {
+        setSubmitted(true);
+      } else {
+        setError('We could not send your request right now. Please try again later.');
+      }
+    } catch {
+      setError('We could not send your request right now. Please try again later.');
+    }
   }
 
-  if (emailDraft) {
+  if (submitted) {
     return (
-      <div className="flex min-h-[355px] flex-col items-center justify-center rounded-[28px] border border-[#a9e9df] bg-[#f3fffc] p-8 text-center" data-testid="status-request-email-draft">
+      <div className="flex min-h-[355px] flex-col items-center justify-center rounded-[28px] border border-[#a9e9df] bg-[#f3fffc] p-8 text-center" role="status" data-testid="status-request-success">
         <div className="grid h-16 w-16 place-items-center rounded-full bg-[#00c9b1] text-[#0b1628]"><CircleCheck className="h-8 w-8" /></div>
-        <h3 className="mt-5 font-display text-2xl font-bold text-[#0b1628]">Your email draft is ready.</h3>
-        <p className="mt-3 max-w-sm text-sm leading-6 text-[#53697f]">Please send the prepared message in your email app. This request has not been submitted to FlowNet or GHL yet.</p>
-        <a href={emailDraft} className="mt-6 text-sm font-extrabold text-[#007e70] underline decoration-2 underline-offset-4">Open email draft again</a>
-        <button onClick={() => { setEmailDraft(''); setService(''); }} className="mt-4 text-sm font-extrabold text-[#007e70] underline decoration-2 underline-offset-4" data-testid="button-submit-another">Prepare another request</button>
+        <h3 className="mt-5 font-display text-2xl font-bold text-[#0b1628]">Thank you. Your request has been sent.</h3>
+        <p className="mt-3 max-w-sm text-sm leading-6 text-[#53697f]">We will be in touch soon.</p>
       </div>
     );
   }
@@ -303,13 +309,13 @@ function RequestForm() {
   return (
     <form onSubmit={handleSubmit} className="rounded-[28px] border border-[#d5e2e8] bg-white p-5 shadow-[0_16px_50px_rgba(11,22,40,.08)] sm:p-7">
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="text-sm font-extrabold text-[#263b52]">Your name<span className="ml-1 text-[#00a890]">*</span><input required name="name" type="text" className="mt-2 min-h-12 w-full rounded-xl border border-[#cad9e2] bg-[#fbfdfe] px-4 font-medium outline-none transition focus:border-[#00aF9d] focus:ring-4 focus:ring-[#00c9b1]/15" placeholder="How should we call you?" data-testid="input-request-name" /></label>
-        <label className="text-sm font-extrabold text-[#263b52]">Email address<span className="ml-1 text-[#00a890]">*</span><input required name="email" type="email" className="mt-2 min-h-12 w-full rounded-xl border border-[#cad9e2] bg-[#fbfdfe] px-4 font-medium outline-none transition focus:border-[#00aF9d] focus:ring-4 focus:ring-[#00c9b1]/15" placeholder="you@example.com" data-testid="input-request-email" /></label>
+        <label className="text-sm font-extrabold text-[#263b52]">Your name<span className="ml-1 text-[#00a890]">*</span><input required maxLength={150} name="name" type="text" autoComplete="name" className="mt-2 min-h-12 w-full rounded-xl border border-[#cad9e2] bg-[#fbfdfe] px-4 font-medium outline-none transition focus:border-[#00aF9d] focus:ring-4 focus:ring-[#00c9b1]/15" placeholder="How should we call you?" data-testid="input-request-name" /></label>
+        <label className="text-sm font-extrabold text-[#263b52]">Email address<span className="ml-1 text-[#00a890]">*</span><input required maxLength={254} name="email" type="email" autoComplete="email" className="mt-2 min-h-12 w-full rounded-xl border border-[#cad9e2] bg-[#fbfdfe] px-4 font-medium outline-none transition focus:border-[#00aF9d] focus:ring-4 focus:ring-[#00c9b1]/15" placeholder="you@example.com" data-testid="input-request-email" /></label>
         <label className="text-sm font-extrabold text-[#263b52] sm:col-span-2">What can we help with?<span className="ml-1 text-[#00a890]">*</span><select required value={service} onChange={(event) => { setService(event.target.value); setError(''); }} className="mt-2 min-h-12 w-full rounded-xl border border-[#cad9e2] bg-[#fbfdfe] px-4 font-medium outline-none transition focus:border-[#00aF9d] focus:ring-4 focus:ring-[#00c9b1]/15" data-testid="select-request-service"><option value="">Choose a starting point</option><option>Home or personal tech help</option><option>Church tech audit</option><option>Automation or AI consulting</option><option>Ongoing care plan</option></select></label>
-        <label className="text-sm font-extrabold text-[#263b52] sm:col-span-2">A little more detail<textarea name="message" rows={4} className="mt-2 w-full resize-none rounded-xl border border-[#cad9e2] bg-[#fbfdfe] px-4 py-3 font-medium outline-none transition focus:border-[#00aF9d] focus:ring-4 focus:ring-[#00c9b1]/15" placeholder="What is getting in the way right now?" data-testid="textarea-request-message" /></label>
+        <label className="text-sm font-extrabold text-[#263b52] sm:col-span-2">A little more detail<textarea name="message" rows={4} maxLength={3000} className="mt-2 w-full resize-none rounded-xl border border-[#cad9e2] bg-[#fbfdfe] px-4 py-3 font-medium outline-none transition focus:border-[#00aF9d] focus:ring-4 focus:ring-[#00c9b1]/15" placeholder="What is getting in the way right now?" data-testid="textarea-request-message" /></label>
       </div>
       {error && <p className="mt-4 text-sm font-bold text-[#b54848]" role="alert" data-testid="text-request-error">{error}</p>}
-      <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><p className="max-w-xs text-xs leading-5 text-[#718294]">This opens your email app with a prepared message. You must send the email to complete your request.</p><button type="submit" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#0b1628] px-6 text-sm font-extrabold text-white transition hover:bg-[#1a6dff] active:scale-[.98]" data-testid="button-submit-request">Prepare email request <ArrowRight className="h-4 w-4" /></button></div>
+      <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><p className="max-w-xs text-xs leading-5 text-[#718294]">Your request will be sent directly to FlowNet. No email app needed.</p><button type="submit" disabled={request.isPending} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#0b1628] px-6 text-sm font-extrabold text-white transition hover:bg-[#1a6dff] active:scale-[.98] disabled:cursor-wait disabled:opacity-60" data-testid="button-submit-request">{request.isPending ? 'Sending…' : 'Send my request'} <ArrowRight className="h-4 w-4" /></button></div>
     </form>
   );
 }
@@ -333,8 +339,8 @@ function Home() {
               <h1 className="max-w-3xl font-display text-[clamp(3rem,8vw,6.3rem)] font-extrabold leading-[.98] tracking-[-.07em]">Technology that <span className="text-[#00c9b1]">works</span> for you.</h1>
               <p className="mt-7 max-w-xl text-lg leading-8 text-[#b7c8d8] sm:text-xl">FlowNet helps churches, nonprofits, service businesses, and professional teams identify inefficient workflows, improve systems, and automate repetitive work without making technology more complicated.</p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#00c9b1] px-7 text-base font-extrabold text-[#0b1628] shadow-[0_6px_0_#078f7d] transition hover:-translate-y-1 active:translate-y-0" data-testid="link-hero-score">Get Your Automation Score <ArrowRight className="h-5 w-5" /></a>
-                <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-[#506b83] px-7 text-base font-extrabold text-white transition hover:border-[#00c9b1] hover:text-[#00c9b1]" data-testid="link-hero-call">Book a Strategy Call <ArrowDownRight className="h-5 w-5" /></a>
+                <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#00c9b1] px-5 text-sm font-extrabold text-[#0b1628] shadow-[0_6px_0_#078f7d] transition hover:-translate-y-1 active:translate-y-0" data-testid="link-hero-score">Get Your Automation Readiness Score <ArrowRight className="h-5 w-5 shrink-0" /></a>
+                <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#506b83] px-5 text-sm font-extrabold text-white transition hover:border-[#00c9b1] hover:text-[#00c9b1]" data-testid="link-hero-call">Book a Strategy Call <ArrowDownRight className="h-5 w-5 shrink-0" /></a>
               </div>
               <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-bold text-[#91a8bc]">
                 <span className="inline-flex items-center gap-2"><FileCheck2 className="h-4 w-4 text-[#00c9b1]" /> Takes ~3 mins</span>
@@ -407,10 +413,10 @@ function Home() {
               </div>
               <div className="rounded-[28px] border border-[#d7e2e7] bg-[#edf3ff] p-7 flex items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-display text-xl font-bold text-[#0b1628]">Automation Score</h3>
-                  <p className="mt-2 text-sm leading-6 text-[#65788b]">Take a 3-minute readiness assessment.</p>
+                  <h3 className="font-display text-xl font-bold text-[#0b1628]">Automation Readiness Score</h3>
+                  <p className="mt-2 text-sm leading-6 text-[#65788b]">Get your score in about 3 minutes.</p>
                 </div>
-                <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#1a6dff] text-white transition hover:scale-105" aria-label="Take assessment"><ArrowRight className="h-5 w-5" /></a>
+                <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#1a6dff] text-white transition hover:scale-105" aria-label="Take Automation Readiness Score"><ArrowRight className="h-5 w-5" /></a>
               </div>
             </div>
           </div>
@@ -484,7 +490,7 @@ function TechCare() {
           <div className="absolute -left-24 top-12 h-72 w-72 rounded-full bg-[#1a6dff]/20 blur-3xl" />
           <div className="container-wide relative grid gap-10 py-16 md:grid-cols-[1fr_.8fr] md:items-end md:py-24">
             <div className="fade-up"><div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#3a5772] bg-[#142640] px-3 py-2 text-xs font-extrabold uppercase tracking-[.12em] text-[#c2d1dd]"><MapPinDot /> Local technology help</div><h1 className="max-w-3xl font-display text-[clamp(3rem,8vw,6rem)] font-extrabold leading-[.98] tracking-[-.07em]">Your tech should feel <span className="text-[#00c9b1]">friendly.</span></h1><p className="mt-7 max-w-2xl text-lg leading-8 text-[#b7c8d8] sm:text-xl">FlowNet Tech Care brings patient, hands-on technology help to homeowners, seniors, churches, and small organizations across Hampton Roads.</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><a href="#request" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#00c9b1] px-7 font-extrabold text-[#0b1628] shadow-[0_6px_0_#078f7d] transition hover:-translate-y-1" data-testid="link-tech-care-book">Book Tech Help <ArrowRight className="h-5 w-5" /></a><Link href="/#automation" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-[#506b83] px-7 font-extrabold text-white transition hover:border-[#00c9b1] hover:text-[#00c9b1]" data-testid="link-tech-care-automation">Need systems help? <ArrowRight className="h-4 w-4" /></Link></div></div>
-            <div className="fade-up fade-up-delay-2 relative md:pb-3"><div className="rounded-[28px] border border-[#38536c] bg-[#142640] p-6"><div className="flex items-center justify-between text-xs font-extrabold text-[#a9bbca]"><span>LOCAL COVERAGE</span><span className="text-[#00c9b1]">HAMPTON ROADS</span></div><div className="relative mt-6 h-44 overflow-hidden rounded-2xl bg-[#102039]"><div className="absolute inset-0 opacity-50" style={{ backgroundImage: 'linear-gradient(#2c4662 1px, transparent 1px), linear-gradient(90deg, #2c4662 1px, transparent 1px)', backgroundSize: '32px 32px' }} /><div className="absolute left-[29%] top-[28%] h-20 w-20 rounded-full border border-[#00c9b1]/40 bg-[#00c9b1]/10" /><div className="absolute left-[29%] top-[28%] h-3 w-3 rounded-full bg-[#00c9b1] shadow-[0_0_0_7px_#00c9b133]" /><div className="absolute left-[52%] top-[52%] h-3 w-3 rounded-full bg-[#1a6dff] shadow-[0_0_0_7px_#1a6dff33]" /><div className="absolute bottom-3 left-4 text-[10px] font-bold text-[#8ea3b7]">Norfolk · Virginia Beach · Chesapeake · Suffolk</div></div><div className="mt-5 grid grid-cols-3 gap-2 text-center"><div><p className="font-display text-xl font-bold text-white">Local</p><p className="mt-1 text-[10px] font-bold text-[#8ea3b7]">hands-on help</p></div><div><p className="font-display text-xl font-bold text-white">Clear</p><p className="mt-1 text-[10px] font-bold text-[#8ea3b7]">plain language</p></div><div><p className="font-display text-xl font-bold text-white">Human</p><p className="mt-1 text-[10px] font-bold text-[#8ea3b7]">real follow-through</p></div></div></div></div>
+            <div className="fade-up fade-up-delay-2 relative md:pb-3"><div className="rounded-[28px] border border-[#38536c] bg-[#142640] p-6"><div className="flex items-center justify-between text-xs font-extrabold text-[#a9bbca]"><span>LOCAL COVERAGE</span><span className="text-[#00c9b1]">HAMPTON ROADS</span></div><div className="relative mt-6 h-44 overflow-hidden rounded-2xl bg-[#102039]"><div className="absolute inset-0 opacity-50" style={{ backgroundImage: 'linear-gradient(#2c4662 1px, transparent 1px), linear-gradient(90deg, #2c4662 1px, transparent 1px)', backgroundSize: '32px 32px' }} /><div className="absolute left-[29%] top-[28%] h-20 w-20 rounded-full border border-[#00c9b1]/40 bg-[#00c9b1]/10" /><div className="absolute left-[29%] top-[28%] h-3 w-3 rounded-full bg-[#00c9b1] shadow-[0_0_0_7px_#00c9b133]" /><div className="absolute left-[52%] top-[52%] h-3 w-3 rounded-full bg-[#1a6dff] shadow-[0_0_0_7px_#1a6dff33]" /><div className="absolute bottom-3 left-4 right-4 text-[10px] font-bold leading-4 text-[#8ea3b7]">Norfolk · Virginia Beach · Chesapeake · Suffolk · Portsmouth · Hampton · Newport News</div></div><div className="mt-5 grid grid-cols-3 gap-2 text-center"><div><p className="font-display text-xl font-bold text-white">Local</p><p className="mt-1 text-[10px] font-bold text-[#8ea3b7]">hands-on help</p></div><div><p className="font-display text-xl font-bold text-white">Clear</p><p className="mt-1 text-[10px] font-bold text-[#8ea3b7]">plain language</p></div><div><p className="font-display text-xl font-bold text-white">Human</p><p className="mt-1 text-[10px] font-bold text-[#8ea3b7]">real follow-through</p></div></div></div></div>
           </div>
         </section>
 

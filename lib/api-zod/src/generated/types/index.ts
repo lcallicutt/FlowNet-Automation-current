@@ -7,6 +7,8 @@
  */
 
 export * from './healthStatus';
+export * from './homepageRequestInput';
+export * from './homepageRequestInputService';
 export * from './techCareRequestInput';
 export * from './techCareRequestInputCustomerType';
 export * from './techCareRequestInputPreferredContact';

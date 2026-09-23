@@ -9,6 +9,29 @@ import * as zod from 'zod';
 
 
 /**
+ * @summary Submit a homepage inquiry
+ */
+export const submitHomepageRequestBodyFullNameMax = 150;
+
+export const submitHomepageRequestBodyEmailMax = 254;
+
+export const submitHomepageRequestBodyDetailMax = 3000;
+
+
+
+export const SubmitHomepageRequestBody = zod.object({
+  "full_name": zod.string().min(1).max(submitHomepageRequestBodyFullNameMax),
+  "email": zod.string().email().max(submitHomepageRequestBodyEmailMax),
+  "service": zod.enum(['Home or personal tech help', 'Church tech audit', 'Automation or AI consulting', 'Ongoing care plan']),
+  "detail": zod.string().max(submitHomepageRequestBodyDetailMax).optional()
+})
+
+export const SubmitHomepageRequestResponse = zod.object({
+  "success": zod.boolean()
+})
+
+
+/**
  * @summary Submit a Tech Care visit request
  */
 export const submitTechCareRequestBodyFullNameMax = 150;

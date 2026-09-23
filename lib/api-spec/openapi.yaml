@@ -12,7 +12,33 @@ tags:
     description: Health operations
   - name: tech-care
     description: Tech Care requests
+  - name: homepage
+    description: Homepage inquiries
 paths:
+  /homepage/requests:
+    post:
+      operationId: submitHomepageRequest
+      tags: [homepage]
+      summary: Submit a homepage inquiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HomepageRequestInput"
+      responses:
+        "200":
+          description: Request accepted by the webhook
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TechCareRequestResult"
+        "400":
+          description: Invalid request
+        "502":
+          description: Webhook did not accept the request
+        "503":
+          description: Webhook not configured
   /tech-care/requests:
     post:
       operationId: submitTechCareRequest
@@ -52,6 +78,16 @@ paths:
                 $ref: "#/components/schemas/HealthStatus"
 components:
   schemas:
+    HomepageRequestInput:
+      type: object
+      required: [full_name, email, service]
+      properties:
+        full_name: { type: string, minLength: 1, maxLength: 150 }
+        email: { type: string, format: email, maxLength: 254 }
+        service:
+          type: string
+          enum: [Home or personal tech help, Church tech audit, Automation or AI consulting, Ongoing care plan]
+        detail: { type: string, maxLength: 3000 }
     TechCareRequestInput:
       type: object
       required: [full_name, email, phone, tech_care_service, tech_care_city, customer_type]

@@ -5,6 +5,29 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+export type HomepageRequestInputService = typeof HomepageRequestInputService[keyof typeof HomepageRequestInputService];
+
+
+export const HomepageRequestInputService = {
+  Home_or_personal_tech_help: 'Home or personal tech help',
+  Church_tech_audit: 'Church tech audit',
+  Automation_or_AI_consulting: 'Automation or AI consulting',
+  Ongoing_care_plan: 'Ongoing care plan',
+} as const;
+
+export interface HomepageRequestInput {
+  /**
+     * @minLength 1
+     * @maxLength 150
+     */
+  full_name: string;
+  /** @maxLength 254 */
+  email: string;
+  service: HomepageRequestInputService;
+  /** @maxLength 3000 */
+  detail?: string;
+}
+
 export type TechCareRequestInputTechCareService = typeof TechCareRequestInputTechCareService[keyof typeof TechCareRequestInputTechCareService];
 
 
