@@ -419,8 +419,8 @@ function Home() {
         <section className="bg-[#0b1628] py-20 text-white md:py-28">
           <div className="container-wide grid gap-12 md:grid-cols-[.9fr_1.1fr] md:items-center">
             <div className="order-2 md:order-1 relative">
-              <div className="aspect-square max-w-sm mx-auto overflow-hidden rounded-[2rem] border border-[#2c425c] bg-[#142640]">
-                <img src="/founder.png" alt="Net, Founder of FlowNet Automation" className="h-full w-full object-cover opacity-90" />
+              <div className="aspect-[4/5] max-w-sm mx-auto overflow-hidden rounded-[2rem] border border-[#2c425c] bg-white">
+                <img src="/founder.png" alt="Net, Founder of FlowNet Automation" className="h-full w-full object-contain" />
               </div>
             </div>
             <div className="order-1 md:order-2">
