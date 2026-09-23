@@ -10,7 +10,33 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: tech-care
+    description: Tech Care requests
 paths:
+  /tech-care/requests:
+    post:
+      operationId: submitTechCareRequest
+      tags: [tech-care]
+      summary: Submit a Tech Care visit request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TechCareRequestInput"
+      responses:
+        "200":
+          description: Request accepted by the webhook
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TechCareRequestResult"
+        "400":
+          description: Invalid request
+        "502":
+          description: Webhook did not accept the request
+        "503":
+          description: Webhook not configured
   /healthz:
     get:
       operationId: healthCheck
@@ -26,6 +52,32 @@ paths:
                 $ref: "#/components/schemas/HealthStatus"
 components:
   schemas:
+    TechCareRequestInput:
+      type: object
+      required: [full_name, email, phone, tech_care_service, tech_care_city, customer_type]
+      properties:
+        full_name: { type: string, minLength: 1, maxLength: 150 }
+        email: { type: string, format: email, maxLength: 254 }
+        phone: { type: string, minLength: 7, maxLength: 40 }
+        tech_care_service:
+          type: string
+          enum: [Home Tech Checkup, Printer & Wi-Fi Rescue, Smart Home Setup, New Device Setup, Church Tech Audit, Quarterly Care Plans]
+        tech_care_city:
+          type: string
+          enum: [Norfolk, Virginia Beach, Chesapeake, Suffolk, Portsmouth, Hampton, Newport News, Other]
+        customer_type:
+          type: string
+          enum: [Home, Church, Small business / nonprofit]
+        tech_care_detail: { type: string, maxLength: 3000 }
+        preferred_contact:
+          type: string
+          enum: [Email, Phone, Text]
+        best_time: { type: string, maxLength: 200 }
+    TechCareRequestResult:
+      type: object
+      required: [success]
+      properties:
+        success: { type: boolean }
     HealthStatus:
       type: object
       properties:

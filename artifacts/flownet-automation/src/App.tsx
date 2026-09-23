@@ -31,6 +31,7 @@ import {
   Activity,
 } from 'lucide-react';
 import NotFound from '@/pages/not-found';
+import TechCareRequestForm from '@/components/tech-care-request-form';
 import {
   Link,
   Route,
@@ -263,33 +264,47 @@ function HeroVisual() {
 }
 
 function RequestForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [emailDraft, setEmailDraft] = useState('');
   const [error, setError] = useState('');
   const [service, setService] = useState('');
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
+    if (!form.reportValidity()) return;
     if (!service) {
       setError('Choose the kind of help you need so we can route your request well.');
       return;
     }
+    const data = new FormData(form);
+    const subject = `FlowNet inquiry: ${service}`;
+    const body = [
+      `Name: ${String(data.get('name') ?? '').trim()}`,
+      `Email: ${String(data.get('email') ?? '').trim()}`,
+      `Help needed: ${service}`,
+      '',
+      String(data.get('message') ?? '').trim(),
+    ].join('\n');
+    const link = `mailto:linette@flownetautomation.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setError('');
-    setSubmitted(true);
+    setEmailDraft(link);
+    window.location.href = link;
   }
 
-  if (submitted) {
+  if (emailDraft) {
     return (
-      <div className="flex min-h-[355px] flex-col items-center justify-center rounded-[28px] border border-[#a9e9df] bg-[#f3fffc] p-8 text-center" data-testid="status-request-success">
+      <div className="flex min-h-[355px] flex-col items-center justify-center rounded-[28px] border border-[#a9e9df] bg-[#f3fffc] p-8 text-center" data-testid="status-request-email-draft">
         <div className="grid h-16 w-16 place-items-center rounded-full bg-[#00c9b1] text-[#0b1628]"><CircleCheck className="h-8 w-8" /></div>
-        <h3 className="mt-5 font-display text-2xl font-bold text-[#0b1628]">You are on the right track.</h3>
-        <p className="mt-3 max-w-sm text-sm leading-6 text-[#53697f]">Thanks for reaching out. We will review your note and be in touch with a practical next step.</p>
-        <button onClick={() => { setSubmitted(false); setService(''); }} className="mt-6 text-sm font-extrabold text-[#007e70] underline decoration-2 underline-offset-4" data-testid="button-submit-another">Send another request</button>
+        <h3 className="mt-5 font-display text-2xl font-bold text-[#0b1628]">Your email draft is ready.</h3>
+        <p className="mt-3 max-w-sm text-sm leading-6 text-[#53697f]">Please send the prepared message in your email app. This request has not been submitted to FlowNet or GHL yet.</p>
+        <a href={emailDraft} className="mt-6 text-sm font-extrabold text-[#007e70] underline decoration-2 underline-offset-4">Open email draft again</a>
+        <button onClick={() => { setEmailDraft(''); setService(''); }} className="mt-4 text-sm font-extrabold text-[#007e70] underline decoration-2 underline-offset-4" data-testid="button-submit-another">Prepare another request</button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-[28px] border border-[#d5e2e8] bg-white p-5 shadow-[0_16px_50px_rgba(11,22,40,.08)] sm:p-7" noValidate>
+    <form onSubmit={handleSubmit} className="rounded-[28px] border border-[#d5e2e8] bg-white p-5 shadow-[0_16px_50px_rgba(11,22,40,.08)] sm:p-7">
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="text-sm font-extrabold text-[#263b52]">Your name<span className="ml-1 text-[#00a890]">*</span><input required name="name" type="text" className="mt-2 min-h-12 w-full rounded-xl border border-[#cad9e2] bg-[#fbfdfe] px-4 font-medium outline-none transition focus:border-[#00aF9d] focus:ring-4 focus:ring-[#00c9b1]/15" placeholder="How should we call you?" data-testid="input-request-name" /></label>
         <label className="text-sm font-extrabold text-[#263b52]">Email address<span className="ml-1 text-[#00a890]">*</span><input required name="email" type="email" className="mt-2 min-h-12 w-full rounded-xl border border-[#cad9e2] bg-[#fbfdfe] px-4 font-medium outline-none transition focus:border-[#00aF9d] focus:ring-4 focus:ring-[#00c9b1]/15" placeholder="you@example.com" data-testid="input-request-email" /></label>
@@ -297,7 +312,7 @@ function RequestForm() {
         <label className="text-sm font-extrabold text-[#263b52] sm:col-span-2">A little more detail<textarea name="message" rows={4} className="mt-2 w-full resize-none rounded-xl border border-[#cad9e2] bg-[#fbfdfe] px-4 py-3 font-medium outline-none transition focus:border-[#00aF9d] focus:ring-4 focus:ring-[#00c9b1]/15" placeholder="What is getting in the way right now?" data-testid="textarea-request-message" /></label>
       </div>
       {error && <p className="mt-4 text-sm font-bold text-[#b54848]" role="alert" data-testid="text-request-error">{error}</p>}
-      <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><p className="max-w-xs text-xs leading-5 text-[#718294]">No hard sell. Just a human reply and a clearer next step.</p><button type="submit" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#0b1628] px-6 text-sm font-extrabold text-white transition hover:bg-[#1a6dff] active:scale-[.98]" data-testid="button-submit-request">Send my request <ArrowRight className="h-4 w-4" /></button></div>
+      <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><p className="max-w-xs text-xs leading-5 text-[#718294]">This opens your email app with a prepared message. You must send the email to complete your request.</p><button type="submit" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#0b1628] px-6 text-sm font-extrabold text-white transition hover:bg-[#1a6dff] active:scale-[.98]" data-testid="button-submit-request">Prepare email request <ArrowRight className="h-4 w-4" /></button></div>
     </form>
   );
 }
@@ -493,7 +508,7 @@ function TechCare() {
         </section>
 
         <section className="container-wide py-20 md:py-28" id="request">
-          <div className="grid gap-10 md:grid-cols-[.75fr_1.25fr] md:items-start"><div><span className="section-kicker">Start with a conversation</span><h2 className="mt-5 font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">Let’s get your setup back on your side.</h2><p className="mt-5 leading-7 text-[#63778b]">Tell us what is going on and where you are located. We will help you decide whether a visit, a care plan, or a systems conversation is the best fit.</p><div className="mt-8 rounded-2xl border border-[#d7e3e8] bg-[#f0f5f7] p-5"><div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-xl bg-[#fff0dc] text-[#db7718]"><Lightbulb className="h-5 w-5" /></div><p className="text-sm font-bold leading-6 text-[#42586d]">Already seeing a bigger pattern?</p></div><p className="mt-3 text-sm leading-6 text-[#687c8e]">We can connect a local fix to FlowNet’s remote automation and AI consulting — only when it genuinely helps.</p><Link href="/#automation" className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-[#1a5bd3]" data-testid="link-tech-care-cross-sell">Explore the systems side <ArrowRight className="h-4 w-4" /></Link></div></div><RequestForm /></div>
+          <div className="grid gap-10 md:grid-cols-[.75fr_1.25fr] md:items-start"><div><span className="section-kicker">Start with a conversation</span><h2 className="mt-5 font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">Let’s get your setup back on your side.</h2><p className="mt-5 leading-7 text-[#63778b]">Tell us what is going on and where you are located. We will help you decide whether a visit, a care plan, or a systems conversation is the best fit.</p><div className="mt-8 rounded-2xl border border-[#d7e3e8] bg-[#f0f5f7] p-5"><div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-xl bg-[#fff0dc] text-[#db7718]"><Lightbulb className="h-5 w-5" /></div><p className="text-sm font-bold leading-6 text-[#42586d]">Already seeing a bigger pattern?</p></div><p className="mt-3 text-sm leading-6 text-[#687c8e]">We can connect a local fix to FlowNet’s remote automation and AI consulting — only when it genuinely helps.</p><Link href="/#automation" className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-[#1a5bd3]" data-testid="link-tech-care-cross-sell">Explore the systems side <ArrowRight className="h-4 w-4" /></Link></div></div><TechCareRequestForm /></div>
         </section>
       </main>
       <Footer />
