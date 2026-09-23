@@ -44,10 +44,8 @@ const queryClient = new QueryClient();
 
 const navItems = [
   { label: 'Automation Services', href: '/#automation', external: false },
-  { label: 'AI Receptionist', href: '/#ai-receptionist', external: false },
   { label: 'FlowNet Tech Care', href: '/tech-care', external: false },
   { label: 'AI Readiness / Audit', href: 'https://flowreadiness.com', external: true },
-  { label: 'Church Solutions', href: '/#churches', external: false },
 ];
 
 const techServices = [
@@ -201,7 +199,6 @@ function Footer() {
           <div className="flex flex-col items-start gap-3 text-sm font-bold text-[#c9d4df]">
             <Link href="/#automation" className="hover:text-[#00c9b1]" data-testid="link-footer-automation">Automation Services</Link>
             <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="hover:text-[#00c9b1]" data-testid="link-footer-readiness">AI Readiness / Audit</a>
-            <Link href="/#churches" className="hover:text-[#00c9b1]" data-testid="link-footer-churches">Church Solutions</Link>
             <Link href="/tech-care" className="hover:text-[#00c9b1]" data-testid="link-footer-tech-care">FlowNet Tech Care</Link>
           </div>
         </div>
@@ -394,7 +391,7 @@ function Home() {
               <div className="flex items-center justify-between"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#1b3454] text-[#00c9b1]"><Building2 className="h-6 w-6" /></span><span className="rounded-full border border-[#3d5570] px-3 py-1 text-[10px] font-extrabold uppercase tracking-[.13em] text-[#a6bacb]">Success Story</span></div>
               <h3 className="mt-12 font-display text-3xl font-bold">Greater Emmanuel Church</h3>
               <p className="mt-4 leading-7 text-[#b4c4d3]">They needed a consistent digital presence while reducing the technology burden on leadership. FlowNet stepped in to provide complete website design and launch, ongoing maintenance, digital platform support, and social support.</p>
-              <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 font-extrabold text-[#00c9b1]" data-testid="link-church-story">Explore Church Solutions <ArrowRight className="h-4 w-4" /></a>
+              <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 font-extrabold text-[#00c9b1]" data-testid="link-church-story">Book a Strategy Call <ArrowRight className="h-4 w-4" /></a>
             </div>
             <div className="grid gap-5">
               <div className="rounded-[28px] border border-[#d7e2e7] bg-[#fff8ed] p-7 flex flex-col justify-between" id="ai-receptionist">
