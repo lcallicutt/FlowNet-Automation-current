@@ -189,7 +189,7 @@ function Footer() {
       <div className="container-wide grid gap-12 py-14 md:grid-cols-[1.4fr_.8fr_.8fr] md:py-20">
         <div>
           <Logo light />
-          <p className="mt-5 max-w-sm text-[1rem] leading-7 text-[#b7c6d4]">Technology that works for you — at home, in your church, and in the work that keeps your organization moving.</p>
+          <p className="mt-5 max-w-sm text-[1rem] leading-7 text-[#b7c6d4]">Technology that works for you at home, in your church, and in the work that keeps your organization moving.</p>
           <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-[#2c4059] px-3 py-2 text-xs font-bold text-[#b7c6d4]">
             <MapPinDot /> Serving Hampton Roads
           </div>
@@ -252,7 +252,7 @@ function HeroVisual() {
       </div>
       <div className="float-slow absolute bottom-3 left-0 w-[205px] rounded-2xl border border-[#d4e2e7] bg-[#f7fbfc] p-4 shadow-xl shadow-[#07101e]/20 sm:left-2">
         <div className="flex items-center gap-2"><span className="grid h-8 w-8 place-items-center rounded-xl bg-[#fff0dc] text-[#db7718]"><Wrench className="h-4 w-4" /></span><span className="text-xs font-extrabold text-[#203650]">Tech Care visit</span></div>
-        <p className="mt-3 text-[11px] leading-4 text-[#6a7b8b]">Printer, Wi-Fi, and smart home — sorted.</p>
+        <p className="mt-3 text-[11px] leading-4 text-[#6a7b8b]">Printer, Wi-Fi, and smart home issues sorted.</p>
         <div className="mt-3 flex items-center gap-1.5 text-[10px] font-extrabold text-[#008d7c]"><MapPinDot /> Hampton Roads</div>
       </div>
       <div className="absolute right-0 top-0 grid h-16 w-16 place-items-center rounded-2xl bg-[#1a6dff] text-white shadow-xl shadow-[#1a6dff]/20 sm:right-4"><Sparkles className="h-7 w-7" /></div>
@@ -351,7 +351,7 @@ function Home() {
               <span className="section-kicker">Systems-first approach</span>
               <h2 className="mt-5 max-w-md font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">Understand the workflow and people before the tools.</h2>
             </div>
-            <p className="max-w-xl text-lg leading-8 text-[#5d7186] md:justify-self-end">You do not need more technology. You need the right technology. We start where the friction is—understanding how your team actually works before we recommend or build any automation.</p>
+            <p className="max-w-xl text-lg leading-8 text-[#5d7186] md:justify-self-end">You do not need more technology. You need the right technology. We start where the friction is. We understand how your team actually works before we recommend or build any automation.</p>
           </div>
         </section>
 
@@ -443,7 +443,7 @@ function Home() {
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full bg-[#c0f2ea] px-3 py-1.5 text-xs font-extrabold text-[#008d7c]"><MapPinDot /> Hampton Roads Local Service</div>
                 <h3 className="mt-6 font-display text-3xl font-bold text-[#0b1628] sm:text-4xl">FlowNet Tech Care</h3>
-                <p className="mt-4 max-w-2xl text-lg leading-8 text-[#4c6878]">Sometimes the workflow isn't the problem—the Wi-Fi is. We offer patient, hands-on technology help for homes, churches, and small organizations in Hampton Roads.</p>
+                <p className="mt-4 max-w-2xl text-lg leading-8 text-[#4c6878]">Sometimes the workflow isn't the problem. The Wi-Fi is. We offer patient, hands-on technology help for homes, churches, and small organizations in Hampton Roads.</p>
               </div>
               <Link href="/tech-care" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#0b1628] px-8 font-extrabold text-white transition hover:bg-[#1a6dff]" data-testid="link-home-tech-care">See Tech Care <ArrowRight className="h-5 w-5" /></Link>
             </div>
@@ -501,11 +501,11 @@ function TechCare() {
         </section>
 
         <section className="bg-[#f0f5f7] py-20 md:py-28">
-          <div className="container-wide grid gap-12 md:grid-cols-[1fr_.9fr] md:items-center"><div><span className="section-kicker">How a visit feels</span><h2 className="mt-5 font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">No jargon. No judgment. No mystery.</h2><p className="mt-5 max-w-xl text-lg leading-8 text-[#63778b]">We arrive curious, solve what we can, explain what matters, and leave you with a setup you can actually live with.</p></div><div className="space-y-3">{['We look at the whole setup, not just the loudest symptom.', 'We explain the fix in words you can pass along.', 'We flag the next thing worth doing — without piling on extras.'].map((item, index) => <div key={item} className="flex items-start gap-4 rounded-2xl border border-[#d7e3e8] bg-white p-5"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#e4fbf7] font-mono text-xs font-bold text-[#008d7c]">0{index + 1}</span><p className="pt-1 text-sm font-bold leading-6 text-[#344b62]">{item}</p></div>)}</div></div>
+          <div className="container-wide grid gap-12 md:grid-cols-[1fr_.9fr] md:items-center"><div><span className="section-kicker">How a visit feels</span><h2 className="mt-5 font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">No jargon. No judgment. No mystery.</h2><p className="mt-5 max-w-xl text-lg leading-8 text-[#63778b]">We arrive curious, solve what we can, explain what matters, and leave you with a setup you can actually live with.</p></div><div className="space-y-3">{['We look at the whole setup, not just the loudest symptom.', 'We explain the fix in words you can pass along.', 'We flag the next thing worth doing without piling on extras.'].map((item, index) => <div key={item} className="flex items-start gap-4 rounded-2xl border border-[#d7e3e8] bg-white p-5"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#e4fbf7] font-mono text-xs font-bold text-[#008d7c]">0{index + 1}</span><p className="pt-1 text-sm font-bold leading-6 text-[#344b62]">{item}</p></div>)}</div></div>
         </section>
 
         <section className="container-wide py-20 md:py-28" id="request">
-          <div className="grid gap-10 md:grid-cols-[.75fr_1.25fr] md:items-start"><div><span className="section-kicker">Start with a conversation</span><h2 className="mt-5 font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">Let’s get your setup back on your side.</h2><p className="mt-5 leading-7 text-[#63778b]">Tell us what is going on and where you are located. We will help you decide whether a visit, a care plan, or a systems conversation is the best fit.</p><div className="mt-8 rounded-2xl border border-[#d7e3e8] bg-[#f0f5f7] p-5"><div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-xl bg-[#fff0dc] text-[#db7718]"><Lightbulb className="h-5 w-5" /></div><p className="text-sm font-bold leading-6 text-[#42586d]">Already seeing a bigger pattern?</p></div><p className="mt-3 text-sm leading-6 text-[#687c8e]">We can connect a local fix to FlowNet’s remote automation and AI consulting — only when it genuinely helps.</p><Link href="/#automation" className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-[#1a5bd3]" data-testid="link-tech-care-cross-sell">Explore the systems side <ArrowRight className="h-4 w-4" /></Link></div></div><TechCareRequestForm /></div>
+          <div className="grid gap-10 md:grid-cols-[.75fr_1.25fr] md:items-start"><div><span className="section-kicker">Start with a conversation</span><h2 className="mt-5 font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">Let’s get your setup back on your side.</h2><p className="mt-5 leading-7 text-[#63778b]">Tell us what is going on and where you are located. We will help you decide whether a visit, a care plan, or a systems conversation is the best fit.</p><div className="mt-8 rounded-2xl border border-[#d7e3e8] bg-[#f0f5f7] p-5"><div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-xl bg-[#fff0dc] text-[#db7718]"><Lightbulb className="h-5 w-5" /></div><p className="text-sm font-bold leading-6 text-[#42586d]">Already seeing a bigger pattern?</p></div><p className="mt-3 text-sm leading-6 text-[#687c8e]">We can connect a local fix to FlowNet’s remote automation and AI consulting, but only when it genuinely helps.</p><Link href="/#automation" className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-[#1a5bd3]" data-testid="link-tech-care-cross-sell">Explore the systems side <ArrowRight className="h-4 w-4" /></Link></div></div><TechCareRequestForm /></div>
         </section>
       </main>
       <Footer />
