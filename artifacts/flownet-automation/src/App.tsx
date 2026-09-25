@@ -443,13 +443,13 @@ function Home() {
           <div className="container-wide grid gap-12 md:grid-cols-[.9fr_1.1fr] md:items-center">
             <div className="order-2 md:order-1 relative">
               <div className="aspect-[4/5] max-w-sm mx-auto overflow-hidden rounded-[2rem] border border-[#2c425c] bg-white">
-                <img src="/founder.png" alt="Net, Founder of FlowNet Automation" className="h-full w-full object-contain" />
+                <img src="/founder.png" alt="Linette, Founder of FlowNet Automation" className="h-full w-full object-contain" />
               </div>
             </div>
             <div className="order-1 md:order-2">
               <span className="section-kicker">Leadership</span>
               <h2 className="mt-5 font-display text-4xl font-bold leading-tight sm:text-5xl">Built by a systems professional.</h2>
-              <p className="mt-6 text-lg leading-8 text-[#b4c4d3]">FlowNet is led by Net, a systems and data professional with deep experience in business process analysis, systems analysis, requirements gathering, and quality assurance.</p>
+              <p className="mt-6 text-lg leading-8 text-[#b4c4d3]">FlowNet is led by Linette, a systems and data professional with deep experience in business process analysis, systems analysis, requirements gathering, and quality assurance.</p>
               <div className="mt-8 flex flex-wrap gap-2 text-xs font-bold text-[#8ba3ba]">
                 {['Workflow Testing', 'Data Validation', 'Automation Architecture', 'Digital Operations', 'AI-Enabled Workflows'].map(skill => (
                   <span key={skill} className="rounded-full border border-[#2d4766] bg-[#102038] px-3 py-1.5">{skill}</span>
