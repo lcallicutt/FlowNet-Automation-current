@@ -35,6 +35,7 @@ import {
 import NotFound from '@/pages/not-found';
 import TechCareRequestForm from '@/components/tech-care-request-form';
 import { techCarePhone } from '@/lib/contact';
+import { trackEvent } from '@/lib/analytics';
 import {
   Link,
   Route,
@@ -108,6 +109,8 @@ function Logo({ light = false }: { light?: boolean }) {
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const [path] = useLocation();
+  const form = path === '/tech-care' ? 'tech_care' : 'homepage';
   return (
     <header className="relative z-50 border-b border-[#d9e3ea] bg-[#f8fbfd]/95 backdrop-blur-md">
       <div className="container-wide flex min-h-[76px] items-center justify-between gap-6">
@@ -120,6 +123,7 @@ function Header() {
                 href={item.href}
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => trackEvent('readiness_score_clicked', { location: 'header' })}
                 className="group inline-flex items-center gap-1 py-4 text-[.78rem] font-bold text-[#41536b] transition-colors hover:text-[#0b1628]"
                 data-testid={`link-nav-${item.label.toLowerCase().replaceAll(' ', '-')}`}
               >
@@ -129,6 +133,7 @@ function Header() {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={() => item.href === '/tech-care' && trackEvent('tech_care_clicked', { location: 'header' })}
                 className="group inline-flex items-center gap-1 py-4 text-[.78rem] font-bold text-[#41536b] transition-colors hover:text-[#0b1628]"
                 data-testid={`link-nav-${item.label.toLowerCase().replaceAll(' ', '-')}`}
               >
@@ -139,15 +144,15 @@ function Header() {
           )}
         </nav>
         <div className="hidden items-center gap-3 xl:flex">
-          <a href="#request" className="text-sm font-extrabold text-[#0b1628] hover:text-[#00aF9d]" data-testid="link-header-request">Have a question?</a>
-          <a href={techCarePhone.href} className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-extrabold text-[#007e70] hover:underline" aria-label={`Call FlowNet Tech Care at ${techCarePhone.display}`} data-testid="link-header-tech-care-phone">
+          <a href="#request" onClick={() => trackEvent('request_cta_clicked', { form, location: 'header_question' })} className="text-sm font-extrabold text-[#0b1628] hover:text-[#00aF9d]" data-testid="link-header-request">Have a question?</a>
+          <a href={techCarePhone.href} onClick={() => trackEvent('phone_link_clicked', { line: 'tech_care', location: 'header' })} className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-extrabold text-[#007e70] hover:underline" aria-label={`Call FlowNet Tech Care at ${techCarePhone.display}`} data-testid="link-header-tech-care-phone">
             <Phone className="h-4 w-4" /> {techCarePhone.display}
           </a>
-          <a href="#request" className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#00c9b1] px-5 text-sm font-extrabold text-[#0b1628] shadow-[0_5px_0_#079783] transition-transform hover:-translate-y-0.5 active:translate-y-0" data-testid="link-header-book">
+          <a href="#request" onClick={() => trackEvent('request_cta_clicked', { form, location: 'header_book' })} className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#00c9b1] px-5 text-sm font-extrabold text-[#0b1628] shadow-[0_5px_0_#079783] transition-transform hover:-translate-y-0.5 active:translate-y-0" data-testid="link-header-book">
             Book Tech Help <ArrowRight className="h-4 w-4" />
           </a>
         </div>
-        <a href={techCarePhone.href} className="ml-auto inline-flex min-h-11 items-center gap-2 whitespace-nowrap text-xs font-extrabold text-[#007e70] sm:text-sm xl:hidden" aria-label={`Call FlowNet Tech Care at ${techCarePhone.display}`} data-testid="link-mobile-header-tech-care-phone">
+        <a href={techCarePhone.href} onClick={() => trackEvent('phone_link_clicked', { line: 'tech_care', location: 'mobile_header' })} className="ml-auto inline-flex min-h-11 items-center gap-2 whitespace-nowrap text-xs font-extrabold text-[#007e70] sm:text-sm xl:hidden" aria-label={`Call FlowNet Tech Care at ${techCarePhone.display}`} data-testid="link-mobile-header-tech-care-phone">
           <Phone className="h-4 w-4" /> {techCarePhone.display}
         </a>
         <button
@@ -170,19 +175,19 @@ function Header() {
                   href={item.href}
                   target="_blank"
                   rel="noreferrer"
-                  onClick={() => setOpen(false)}
+                  onClick={() => { trackEvent('readiness_score_clicked', { location: 'mobile_menu' }); setOpen(false); }}
                   className="border-b border-[#d9e3ea] py-4 text-sm font-extrabold text-[#233851]"
                   data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}
                 >
                   {item.label}
                 </a>
               ) : (
-                <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className="border-b border-[#d9e3ea] py-4 text-sm font-extrabold text-[#233851]" data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}>
+                <Link key={item.href} href={item.href} onClick={() => { if (item.href === '/tech-care') trackEvent('tech_care_clicked', { location: 'mobile_menu' }); setOpen(false); }} className="border-b border-[#d9e3ea] py-4 text-sm font-extrabold text-[#233851]" data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`}>
                   {item.label}
                 </Link>
               ),
             )}
-            <a href="#request" onClick={() => setOpen(false)} className="mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#00c9b1] font-extrabold text-[#0b1628]" data-testid="link-mobile-book">
+            <a href="#request" onClick={() => { trackEvent('request_cta_clicked', { form, location: 'mobile_menu' }); setOpen(false); }} className="mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#00c9b1] font-extrabold text-[#0b1628]" data-testid="link-mobile-book">
               Book Tech Help <ArrowRight className="h-4 w-4" />
             </a>
           </div>
@@ -193,6 +198,7 @@ function Header() {
 }
 
 function Footer() {
+  const [path] = useLocation();
   return (
     <footer className="relative overflow-hidden bg-[#0b1628] text-white">
       <div className="container-wide grid gap-12 py-14 md:grid-cols-[1.4fr_.8fr_.8fr] md:py-20">
@@ -207,14 +213,14 @@ function Footer() {
           <p className="mb-4 text-xs font-extrabold uppercase tracking-[.16em] text-[#00c9b1]">Explore</p>
           <div className="flex flex-col items-start gap-3 text-sm font-bold text-[#c9d4df]">
             <Link href="/#automation" className="hover:text-[#00c9b1]" data-testid="link-footer-automation">Automation Services</Link>
-            <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="hover:text-[#00c9b1]" data-testid="link-footer-readiness">Automation Readiness Score</a>
-            <Link href="/tech-care" className="hover:text-[#00c9b1]" data-testid="link-footer-tech-care">FlowNet Tech Care</Link>
+            <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" onClick={() => trackEvent('readiness_score_clicked', { location: 'footer' })} className="hover:text-[#00c9b1]" data-testid="link-footer-readiness">Automation Readiness Score</a>
+            <Link href="/tech-care" onClick={() => trackEvent('tech_care_clicked', { location: 'footer' })} className="hover:text-[#00c9b1]" data-testid="link-footer-tech-care">FlowNet Tech Care</Link>
           </div>
         </div>
         <div>
           <p className="mb-4 text-xs font-extrabold uppercase tracking-[.16em] text-[#00c9b1]">Start here</p>
           <p className="text-sm leading-6 text-[#b7c6d4]">Tell us what is getting in the way. We will help you find the next right step.</p>
-          <a href="#request" className="mt-5 inline-flex items-center gap-2 font-extrabold text-[#00c9b1] hover:text-white" data-testid="link-footer-request">Book Tech Help <ArrowRight className="h-4 w-4" /></a>
+          <a href="#request" onClick={() => trackEvent('request_cta_clicked', { form: path === '/tech-care' ? 'tech_care' : 'homepage', location: 'footer' })} className="mt-5 inline-flex items-center gap-2 font-extrabold text-[#00c9b1] hover:text-white" data-testid="link-footer-request">Book Tech Help <ArrowRight className="h-4 w-4" /></a>
         </div>
       </div>
       <div className="border-t border-[#26384e]">
@@ -295,11 +301,14 @@ function RequestForm() {
     try {
       const response = await request.mutateAsync({ data: payload });
       if (response.success) {
+        trackEvent('request_submitted', { form: 'homepage', service: payload.service });
         setSubmitted(true);
       } else {
+        trackEvent('request_failed', { form: 'homepage', service: payload.service });
         setError('We could not send your request right now. Please try again later.');
       }
     } catch {
+      trackEvent('request_failed', { form: 'homepage', service: payload.service });
       setError('We could not send your request right now. Please try again later.');
     }
   }
@@ -347,8 +356,8 @@ function Home() {
               <h1 className="max-w-3xl font-display text-[clamp(3rem,8vw,6.3rem)] font-extrabold leading-[.98] tracking-[-.07em]">Technology that <span className="text-[#00c9b1]">works</span> for you.</h1>
               <p className="mt-7 max-w-xl text-lg leading-8 text-[#b7c8d8] sm:text-xl">FlowNet helps churches, nonprofits, service businesses, and professional teams identify inefficient workflows, improve systems, and automate repetitive work without making technology more complicated.</p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#00c9b1] px-5 text-sm font-extrabold text-[#0b1628] shadow-[0_6px_0_#078f7d] transition hover:-translate-y-1 active:translate-y-0" data-testid="link-hero-score">Get Your Automation Readiness Score <ArrowRight className="h-5 w-5 shrink-0" /></a>
-                <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#506b83] px-5 text-sm font-extrabold text-white transition hover:border-[#00c9b1] hover:text-[#00c9b1]" data-testid="link-hero-call">Book a Strategy Call <ArrowDownRight className="h-5 w-5 shrink-0" /></a>
+                <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" onClick={() => trackEvent('readiness_score_clicked', { location: 'hero' })} className="inline-flex min-h-14 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[#00c9b1] px-5 text-sm font-extrabold text-[#0b1628] shadow-[0_6px_0_#078f7d] transition hover:-translate-y-1 active:translate-y-0" data-testid="link-hero-score">Get Your Automation Readiness Score <ArrowRight className="h-5 w-5 shrink-0" /></a>
+                <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" onClick={() => trackEvent('strategy_call_clicked', { location: 'hero' })} className="inline-flex min-h-14 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#506b83] px-5 text-sm font-extrabold text-white transition hover:border-[#00c9b1] hover:text-[#00c9b1]" data-testid="link-hero-call">Book a Strategy Call <ArrowDownRight className="h-5 w-5 shrink-0" /></a>
               </div>
               <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-bold text-[#91a8bc]">
                 <span className="inline-flex items-center gap-2"><FileCheck2 className="h-4 w-4 text-[#00c9b1]" /> Takes ~3 mins</span>
@@ -375,7 +384,7 @@ function Home() {
               <span className="section-kicker">The Core Offer</span>
               <h2 className="mt-5 max-w-lg font-display text-4xl font-bold leading-tight text-[#0b1628] sm:text-5xl">Consult. Audit. Automate.</h2>
               <p className="mt-6 max-w-lg text-lg leading-8 text-[#5d7186]">Our complete method ensures technology actually serves your goals instead of creating more work.</p>
-              <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 font-extrabold text-[#007e70]" data-testid="link-method-book">Discuss your workflow <ArrowRight className="h-4 w-4" /></a>
+              <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" onClick={() => trackEvent('strategy_call_clicked', { location: 'method' })} className="mt-8 inline-flex items-center gap-2 font-extrabold text-[#007e70]" data-testid="link-method-book">Discuss your workflow <ArrowRight className="h-4 w-4" /></a>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {[
@@ -405,7 +414,7 @@ function Home() {
               <div className="flex items-center justify-between"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#1b3454] text-[#00c9b1]"><Building2 className="h-6 w-6" /></span><span className="rounded-full border border-[#3d5570] px-3 py-1 text-[10px] font-extrabold uppercase tracking-[.13em] text-[#a6bacb]">Success Story</span></div>
               <h3 className="mt-12 font-display text-3xl font-bold">Greater Emmanuel Church</h3>
               <p className="mt-4 leading-7 text-[#b4c4d3]">They needed a consistent digital presence while reducing the technology burden on leadership. FlowNet stepped in to provide complete website design and launch, ongoing maintenance, digital platform support, and social support.</p>
-              <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 font-extrabold text-[#00c9b1]" data-testid="link-church-story">Book a Strategy Call <ArrowRight className="h-4 w-4" /></a>
+              <a href="https://api.growthhub365.com/widget/booking/UjrHn0RU4NZstAw53cYW" target="_blank" rel="noreferrer" onClick={() => trackEvent('strategy_call_clicked', { location: 'church_story' })} className="mt-8 inline-flex items-center gap-2 font-extrabold text-[#00c9b1]" data-testid="link-church-story">Book a Strategy Call <ArrowRight className="h-4 w-4" /></a>
             </div>
             <div className="grid gap-5">
               <div className="rounded-[28px] border border-[#d7e2e7] bg-[#fff8ed] p-7 flex flex-col justify-between" id="ai-receptionist">
@@ -417,14 +426,14 @@ function Home() {
                   <h3 className="mt-5 font-display text-2xl font-bold text-[#0b1628]">Meet Aria, the AI Receptionist</h3>
                   <p className="mt-3 text-sm leading-6 text-[#65788b]">A warmer first response for the questions your team answers every day. Give her a call to see how she handles natural conversation.</p>
                 </div>
-                <a href="tel:+17575749991" className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#c06a12] px-5 text-sm font-extrabold text-white transition hover:bg-[#a3590e]" data-testid="link-call-aria">Call Aria at (757) 574-9991</a>
+                <a href="tel:+17575749991" onClick={() => trackEvent('phone_link_clicked', { line: 'aria_demo', location: 'demo_card' })} className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#c06a12] px-5 text-sm font-extrabold text-white transition hover:bg-[#a3590e]" data-testid="link-call-aria">Call Aria at (757) 574-9991</a>
               </div>
               <div className="rounded-[28px] border border-[#d7e2e7] bg-[#edf3ff] p-7 flex items-center justify-between gap-4">
                 <div>
                   <h3 className="font-display text-xl font-bold text-[#0b1628]">Automation Readiness Score</h3>
                   <p className="mt-2 text-sm leading-6 text-[#65788b]">Get your score in about 3 minutes.</p>
                 </div>
-                <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#1a6dff] text-white transition hover:scale-105" aria-label="Take Automation Readiness Score"><ArrowRight className="h-5 w-5" /></a>
+                <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" onClick={() => trackEvent('readiness_score_clicked', { location: 'score_card' })} className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#1a6dff] text-white transition hover:scale-105" aria-label="Take Automation Readiness Score"><ArrowRight className="h-5 w-5" /></a>
               </div>
             </div>
           </div>
@@ -459,7 +468,7 @@ function Home() {
                 <h3 className="mt-6 font-display text-3xl font-bold text-[#0b1628] sm:text-4xl">FlowNet Tech Care</h3>
                 <p className="mt-4 max-w-2xl text-lg leading-8 text-[#4c6878]">Sometimes the workflow isn't the problem. The Wi-Fi is. We offer patient, hands-on technology help for homes, churches, and small organizations in Hampton Roads.</p>
               </div>
-              <Link href="/tech-care" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#0b1628] px-8 font-extrabold text-white transition hover:bg-[#1a6dff]" data-testid="link-home-tech-care">See Tech Care <ArrowRight className="h-5 w-5" /></Link>
+              <Link href="/tech-care" onClick={() => trackEvent('tech_care_clicked', { location: 'home_card' })} className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#0b1628] px-8 font-extrabold text-white transition hover:bg-[#1a6dff]" data-testid="link-home-tech-care">See Tech Care <ArrowRight className="h-5 w-5" /></Link>
             </div>
           </article>
         </section>
@@ -497,7 +506,7 @@ function TechCare() {
         <section className="noise relative overflow-hidden bg-[#0b1628] text-white">
           <div className="absolute -left-24 top-12 h-72 w-72 rounded-full bg-[#1a6dff]/20 blur-3xl" />
           <div className="container-wide relative grid gap-10 py-16 md:grid-cols-[1fr_.8fr] md:items-end md:py-24">
-            <div className="fade-up"><div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#3a5772] bg-[#142640] px-3 py-2 text-xs font-extrabold uppercase tracking-[.12em] text-[#c2d1dd]"><MapPinDot /> Local technology help</div><h1 className="max-w-3xl font-display text-[clamp(3rem,8vw,6rem)] font-extrabold leading-[.98] tracking-[-.07em]">Your tech should feel <span className="text-[#00c9b1]">friendly.</span></h1><p className="mt-7 max-w-2xl text-lg leading-8 text-[#b7c8d8] sm:text-xl">FlowNet Tech Care brings patient, hands-on technology help to homeowners, seniors, churches, and small organizations across Hampton Roads.</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><a href="#request" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#00c9b1] px-7 font-extrabold text-[#0b1628] shadow-[0_6px_0_#078f7d] transition hover:-translate-y-1" data-testid="link-tech-care-book">Book Tech Help <ArrowRight className="h-5 w-5" /></a><Link href="/#automation" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-[#506b83] px-7 font-extrabold text-white transition hover:border-[#00c9b1] hover:text-[#00c9b1]" data-testid="link-tech-care-automation">Need systems help? <ArrowRight className="h-4 w-4" /></Link></div></div>
+            <div className="fade-up"><div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#3a5772] bg-[#142640] px-3 py-2 text-xs font-extrabold uppercase tracking-[.12em] text-[#c2d1dd]"><MapPinDot /> Local technology help</div><h1 className="max-w-3xl font-display text-[clamp(3rem,8vw,6rem)] font-extrabold leading-[.98] tracking-[-.07em]">Your tech should feel <span className="text-[#00c9b1]">friendly.</span></h1><p className="mt-7 max-w-2xl text-lg leading-8 text-[#b7c8d8] sm:text-xl">FlowNet Tech Care brings patient, hands-on technology help to homeowners, seniors, churches, and small organizations across Hampton Roads.</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><a href="#request" onClick={() => trackEvent('request_cta_clicked', { form: 'tech_care', location: 'tech_care_hero' })} className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#00c9b1] px-7 font-extrabold text-[#0b1628] shadow-[0_6px_0_#078f7d] transition hover:-translate-y-1" data-testid="link-tech-care-book">Book Tech Help <ArrowRight className="h-5 w-5" /></a><Link href="/#automation" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-[#506b83] px-7 font-extrabold text-white transition hover:border-[#00c9b1] hover:text-[#00c9b1]" data-testid="link-tech-care-automation">Need systems help? <ArrowRight className="h-4 w-4" /></Link></div></div>
             <div className="fade-up fade-up-delay-2 relative md:pb-3"><div className="rounded-[28px] border border-[#38536c] bg-[#142640] p-6"><div className="flex items-center justify-between text-xs font-extrabold text-[#a9bbca]"><span>LOCAL COVERAGE</span><span className="text-[#00c9b1]">HAMPTON ROADS</span></div><div className="relative mt-6 h-44 overflow-hidden rounded-2xl bg-[#102039]"><div className="absolute inset-0 opacity-50" style={{ backgroundImage: 'linear-gradient(#2c4662 1px, transparent 1px), linear-gradient(90deg, #2c4662 1px, transparent 1px)', backgroundSize: '32px 32px' }} /><div className="absolute left-[29%] top-[28%] h-20 w-20 rounded-full border border-[#00c9b1]/40 bg-[#00c9b1]/10" /><div className="absolute left-[29%] top-[28%] h-3 w-3 rounded-full bg-[#00c9b1] shadow-[0_0_0_7px_#00c9b133]" /><div className="absolute left-[52%] top-[52%] h-3 w-3 rounded-full bg-[#1a6dff] shadow-[0_0_0_7px_#1a6dff33]" /><div className="absolute bottom-3 left-4 right-4 text-[10px] font-bold leading-4 text-[#8ea3b7]">Norfolk · Virginia Beach · Chesapeake · Suffolk · Portsmouth · Hampton · Newport News</div></div><div className="mt-5 grid grid-cols-3 gap-2 text-center"><div><p className="font-display text-xl font-bold text-white">Local</p><p className="mt-1 text-[10px] font-bold text-[#8ea3b7]">hands-on help</p></div><div><p className="font-display text-xl font-bold text-white">Clear</p><p className="mt-1 text-[10px] font-bold text-[#8ea3b7]">plain language</p></div><div><p className="font-display text-xl font-bold text-white">Human</p><p className="mt-1 text-[10px] font-bold text-[#8ea3b7]">real follow-through</p></div></div></div></div>
           </div>
         </section>
