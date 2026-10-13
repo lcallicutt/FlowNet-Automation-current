@@ -11,7 +11,6 @@ import {
   Bot,
   Building2,
   Check,
-  ChevronDown,
   CircleCheck,
   Clock3,
   FileCheck2,
@@ -47,7 +46,6 @@ import {
 const queryClient = new QueryClient();
 
 const navItems = [
-  { label: 'Automation Services', href: '/#automation', external: false },
   { label: 'FlowNet Tech Care', href: '/tech-care', external: false },
   { label: 'Automation Readiness Score', href: 'https://flowreadiness.com', external: true },
 ];
@@ -138,7 +136,6 @@ function Header() {
                 data-testid={`link-nav-${item.label.toLowerCase().replaceAll(' ', '-')}`}
               >
                 {item.label}
-                {item.label === 'Automation Services' && <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5" />}
               </Link>
             ),
           )}
@@ -212,7 +209,6 @@ function Footer() {
         <div>
           <p className="mb-4 text-xs font-extrabold uppercase tracking-[.16em] text-[#00c9b1]">Explore</p>
           <div className="flex flex-col items-start gap-3 text-sm font-bold text-[#c9d4df]">
-            <Link href="/#automation" className="hover:text-[#00c9b1]" data-testid="link-footer-automation">Automation Services</Link>
             <a href="https://flowreadiness.com" target="_blank" rel="noreferrer" onClick={() => trackEvent('readiness_score_clicked', { location: 'footer' })} className="hover:text-[#00c9b1]" data-testid="link-footer-readiness">Automation Readiness Score</a>
             <Link href="/tech-care" onClick={() => trackEvent('tech_care_clicked', { location: 'footer' })} className="hover:text-[#00c9b1]" data-testid="link-footer-tech-care">FlowNet Tech Care</Link>
           </div>
